@@ -42,7 +42,6 @@ public class ProdutoController {
 
     @PostMapping("")
     public Produto criarProduto(@RequestBody Produto produto) {
-        //TODO: process POST request
         
         return produtoService.SalvarProduto(produto);
     }

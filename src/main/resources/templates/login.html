@@ -12,8 +12,8 @@
 <body>
       <div class="wrapper">
       <div class="title-text">
-        <div class="title login">Login Form</div>
-        <div class="title signup">Signup Form</div>
+        <div class="title login">Entrar</div>
+        <div class="title signup">Nova conta</div>
       </div>
       <div class="form-container">
         <div class="slide-controls">
@@ -28,24 +28,27 @@
 
           <form action="/login" class="login">
             <div class="field">
-              <input type="number" name="agencia" placeholder="Insira a agência" required>
+              <input type="number" name="agencia" th:value="${agencia}" placeholder="Insira a agência" required>
             </div>
             <div class="field">
-              <input type="number" name="numero_conta" placeholder="Insira a conta" required>
+              <input type="number" name="numero_conta" th:value="${numero_conta}" placeholder="Insira a conta" required>
             </div>
             <div class="field">
               <input type="password" name="senha" placeholder="Senha" required>
             </div>
             <div class="pass-link"><a href="#">Forgot password?</a></div>
+            <p style="color: red;"><span th:text="${erro}"></span></p>
             <div class="field btn">
               <div class="btn-layer"></div>
               <input type="submit" value="Login">
             </div>
-            <div class="signup-link">Not a member? <a href="">Signup now</a></div>
+            <div>Não é nosso cliente? <a href="/clienteNovo">registrar</a></div>
           </form>
 
 
-          <form action="#" class="signup">
+          <form action="/registrar" class="signup">
+
+
             <div class="field">
               <input type="text" placeholder="Email Address" required>
             </div>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cliente novo - XP banking</title>
+
+</head>
+
+<link rel="stylesheet" href="css/login.css">
+
+<body>
+    <div class="wrapper">
+        <div class="title-text">
+            <div class="title login">Novo cliente</div>
+            <div class="title signup">Nova conta</div>
+        </div>
+        <div class="form-container">
+            <div class="slide-controls">
+                <input type="radio" name="slide" id="login" checked>
+                <input type="radio" name="slide" id="signup">
+                <label for="login" class="slide login">Login</label>
+                <label for="signup" class="slide signup">Signup</label>
+                <div class="slider-tab"></div>
+            </div>
+            <div class="form-inner">
+
+
+                <form action="/clienteNovo" class="login" method="POST">
+
+                    <h3>Dados do cliente</h3>
+                    <div class="field">
+                        <input type="text" name="nome" placeholder="Nome" required>
+                    </div>
+                    <div class="field">
+                        <input type="number" name="cpf" placeholder="Cpf" required>
+                    </div>
+                    <div class="field">
+                        <input type="email" name="email" placeholder="Email" required>
+                    </div>
+                    <div class="field">
+                        <input type="number" name="telefone" placeholder="Telefone" required>
+                    </div>
+                    <div class="field">
+                        <input type="date" name="data_nascimento" placeholder="Data de nascimento" required>
+                    </div>
+                    <div class="field">
+                        <input type="text" name="endereco" placeholder="Endereco" required>
+                    </div>                    
+                    <div class="field">
+                        <input type="password" name="senha" placeholder="Senha" required>
+                    </div>
+                    <div class="field">
+                        <input type="text" name="tipo_conta" placeholder="Tipo da conta" required>
+                    </div>
+                    <div class="pass-link"><a href="#">Forgot password?</a></div>
+                    <div class="field btn">
+                        <div class="btn-layer"></div>
+                        <input type="submit" value="Login">
+                    </div>
+                    <div>Já é nosso cliente?<a href="/">Entrar</a></div>
+                </form>
+
+</body>
+<script src="js/script.js"></script>
+
+</html>
