@@ -1,10 +1,6 @@
-com\example\Bradesco\controller\ProdutoController.class
-com\example\Bradesco\repository\MensagemRepository.class
-com\example\Bradesco\controller\MensagemController.class
-com\example\Bradesco\repository\ProdutoRepository.class
-com\example\Bradesco\service\MensagemService.class
 com\example\Bradesco\controller\IndexController.class
-com\example\Bradesco\service\ProdutoService.class
 com\example\Bradesco\BradescoApplication.class
 com\example\Bradesco\model\Produto.class
-com\example\Bradesco\helloController.class
+com\example\Bradesco\controller\ProdutoController.class
+com\example\Bradesco\repository\ProdutoRepository.class
+com\example\Bradesco\service\ProdutoService.class

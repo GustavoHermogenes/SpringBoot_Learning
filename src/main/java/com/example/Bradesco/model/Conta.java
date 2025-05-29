@@ -1,5 +1,6 @@
 package com.example.Bradesco.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import jakarta.persistence.Column;
@@ -33,7 +34,7 @@ public class Conta {
     private LocalDate data_abertura;
 
     @Column(precision = 10, scale = 2)
-    private Double saldo;
+    private BigDecimal saldo;
 
     @Column(length = 25)
     private String senha;
@@ -67,7 +68,7 @@ public class Conta {
         return tipo_conta;
     }
 
-    public Double getSaldo() {
+    public BigDecimal getSaldo() {
         return saldo;
     }
 
@@ -101,7 +102,7 @@ public class Conta {
         this.tipo_conta = tipo_conta;
     }
 
-    public void setSaldo(Double saldo) {
+    public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
     }
 
