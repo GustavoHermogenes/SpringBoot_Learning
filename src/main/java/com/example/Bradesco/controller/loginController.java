@@ -56,12 +56,6 @@ public class LoginController {
     }
 
 
-    @GetMapping("/registrar")
-    public String realizarRegistro(@RequestParam String param) {
-        return new String();
-    }
-
-
     @GetMapping("/clienteNovo")
     public String novoCliente(Model model) {
         model.addAttribute("cliente", new Cliente());
@@ -75,10 +69,12 @@ public class LoginController {
                                    Model model,
                                    RedirectAttributes redirectAttributes) {
 
+        // System.out.println(cliente.getDataNascimento());
+
         cliente.setStatus(Cliente.status.ATIVO);
         clienteRepository.save(cliente);
 
-        conta.setAgencia(1001);
+        conta.setAgencia(237);
 
         Integer maiorNumeroConta = contaRepository.maiorNumero();
         if (maiorNumeroConta == null) {
@@ -99,11 +95,41 @@ public class LoginController {
         redirectAttributes.addAttribute("agencia", conta.getAgencia());
         redirectAttributes.addAttribute("numero_conta", conta.getNumero_conta());
 
-        System.out.print(cliente.getDataNascimento());
         
         return "redirect:/loginForm";
 
     }
+
+    @PostMapping("/contaNova")
+    public String cadastrarConta(@ModelAttribute Conta conta,
+                                 Model model,
+                                 RedirectAttributes redirectAttributes){
+          
+                conta.setAgencia(237);
+
+        Integer maiorNumeroConta = contaRepository.maiorNumero();
+        if (maiorNumeroConta == null) {
+            maiorNumeroConta = 1000001;
+        }
+        conta.setNumero_conta(maiorNumeroConta + 1);
+
+        conta.setData_abertura(java.time.LocalDate.now());
+
+        conta.setSaldo(BigDecimal.ZERO);
+
+        conta.setStatus(Conta.status.ATIVA);
+
+        conta.setCliente(clienteRepository.findByCpf(conta.getCliente().getCpf())
+                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado")));
+
+        contaRepository.save(conta);
+
+        redirectAttributes.addAttribute("agencia", conta.getAgencia());
+        redirectAttributes.addAttribute("numero_conta", conta.getNumero_conta());
+
+        
+        return "redirect:/loginForm";
+    }  
 
     @GetMapping("/loginForm")
     public String loginForm(@RequestParam (required = false) Integer agencia,

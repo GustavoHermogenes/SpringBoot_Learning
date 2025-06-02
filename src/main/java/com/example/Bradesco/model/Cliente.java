@@ -26,7 +26,7 @@ public class Cliente {
 
     private String nome;
     
-    @Column(length = 14)
+    @Column(length = 14, unique = true)
     private String cpf;
 
     @Column(unique = true)
@@ -35,7 +35,7 @@ public class Cliente {
     private String endereco;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dataNascimento;
+    private LocalDate data_nascimento;
 
     @Column(length = 15)
     private String telefone;
@@ -76,7 +76,7 @@ public class Cliente {
     }
 
     public LocalDate getDataNascimento() {
-        return dataNascimento;
+        return data_nascimento;
     }
 
     public String getTelefone() {
@@ -110,8 +110,8 @@ public class Cliente {
         this.endereco = endereco;
     }
 
-    public void setDataNascimento(LocalDate dataNascimento) {
-        this.dataNascimento = dataNascimento;
+    public void setDataNascimento(LocalDate data_nascimento) {
+        this.data_nascimento = data_nascimento;
     }
 
     public void setTelefone(String telefone) {

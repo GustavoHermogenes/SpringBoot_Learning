@@ -20,4 +20,5 @@ public interface ContaRepository extends CrudRepository<Conta, Long> {
     @Query("SELECT MAX(c.numero_conta) FROM Conta c")
     Integer maiorNumero();
 
+
 }
