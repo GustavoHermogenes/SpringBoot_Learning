@@ -28,8 +28,11 @@ public class Conta {
     @Column(length = 5)
     private Integer agencia;
 
-    @Column(length = 20)
-    private String tipo_conta;
+    @Enumerated(EnumType.STRING)
+    private tipo_conta tipo_conta;
+    public enum  tipo_conta{
+        CORRENTE, POUPANCA;
+    }
 
     private LocalDate data_abertura;
 
@@ -64,7 +67,7 @@ public class Conta {
         return agencia;
     }
 
-    public String getTipo_conta() {
+    public tipo_conta getTipo_conta() {
         return tipo_conta;
     }
 
@@ -98,7 +101,7 @@ public class Conta {
         this.agencia = agencia;
     }
 
-    public void setTipo_conta(String tipo_conta) {
+    public void setTipo_conta(tipo_conta tipo_conta) {
         this.tipo_conta = tipo_conta;
     }
 

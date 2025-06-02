@@ -20,8 +20,8 @@
             <div class="slide-controls">
                 <input type="radio" name="slide" id="login" checked>
                 <input type="radio" name="slide" id="signup">
-                <label for="login" class="slide login">Login</label>
-                <label for="signup" class="slide signup">Signup</label>
+                <label for="login" class="slide login">Novo Cliente</label>
+                <label for="signup" class="slide signup">Nova Conta</label>
                 <div class="slider-tab"></div>
             </div>
             <div class="form-inner">
@@ -51,8 +51,11 @@
                     <div class="field">
                         <input type="password" name="senha" placeholder="Senha" required>
                     </div>
-                    <div class="field">
-                        <input type="text" name="tipo_conta" placeholder="Tipo da conta" required>
+                    <div class="select-field">
+                        <select type="text" name="tipo_conta" placeholder="Tipo da conta" required>´
+                            <option value="CORRENTE">Corrente</option>
+                            <option value="POUPANCA">Poupança</option>
+                        </select>
                     </div>
                     <div class="pass-link"><a href="#">Forgot password?</a></div>
                     <div class="field btn">
@@ -62,17 +65,24 @@
                     <div>Já é nosso cliente?<a href="/">Entrar</a></div>
                 </form>
 
-                <form action="/criarConta" class="signup">
+                <form action="/contaNova" class="signup" method="POST">
 
 
                     <div class="field">
                         <input type="text" name="cpf" placeholder="Insira seu cpf" required>
                     </div>
                     <div class="field">
-                        <input type="password" placeholder="Password" required>
+                        <input type="senha" placeholder="Crie uma senha" required>
                     </div>
                     <div class="field">
-                        <input type="password" placeholder="Confirm password" required>
+                        <input type="senha" placeholder="Confirme sua senha" required>
+                    </div>
+                    
+                    <div class="select-field">
+                        <select type="text" name="tipo_conta" placeholder="Tipo da conta" required>´
+                            <option value="CORRENTE">Corrente</option>
+                            <option value="POUPANCA">Poupança</option>
+                        </select>
                     </div>
                     <div class="field btn">
                         <div class="btn-layer"></div>

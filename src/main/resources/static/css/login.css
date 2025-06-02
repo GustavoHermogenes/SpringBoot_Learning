@@ -183,3 +183,35 @@ form .btn input[type="submit"]{
   font-weight: 500;
   cursor: pointer;
 }
+
+
+
+
+.form-inner form .select-field{
+  height: 50px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.form-inner form .select-field select{
+  height: 100%;
+  width: 100%;
+  outline: none;
+  padding-left: 15px;
+  border-radius: 15px;
+  border: 1px solid lightgrey;
+  border-bottom-width: 2px;
+  font-size: 17px;
+  transition: all 0.3s ease;
+}
+.form-inner form .select-field select:focus{
+  border-color: #1a75ff;
+  /* box-shadow: inset 0 0 3px #fb6aae; */
+}
+.form-inner form .select-field select::placeholder{
+  color: #999;
+  transition: all 0.3s ease;
+}
+form .select-field select:focus::placeholder{
+  color: #1a75ff;
+}
