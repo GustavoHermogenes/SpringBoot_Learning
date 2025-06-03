@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Banco Financia</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      padding: 40px;
+    }
+
+    .login-container {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      transition: border 0.3s;
+    }
+
+    .form-group input:focus {
+      border-color: #0047AB;
+      outline: none;
+    }
+
+    .error {
+      color: red;
+      font-size: 13px;
+      margin-top: 5px;
+    }
+
+    .btn-login {
+      background-color: #0047AB;
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn-login:hover {
+      background-color: #00337a;
+    }
+
+    .footer-text {
+      text-align: center;
+      margin-top: 20px;
+      color: #666;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <form class="login-container" id="form-login">
+    <h2>Banco Financia - Login</h2>
+
+    <div class="form-group">
+      <label for="identificador">CPF ou Conta/Agência</label>
+      <input type="text" id="identificador" name="identificador" placeholder="CPF ou Conta/Agência" required />
+      <div class="error" id="erro-identificador"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="senha">Senha</label>
+      <input type="password" id="senha" name="senha" required />
+    </div>
+
+    <button type="submit" class="btn-login">Entrar</button>
+
+    <p class="footer-text">© 2023 Banco Financia. Todos os direitos reservados.</p>
+  </form>
+
+  <script>
+    const identificadorInput = document.getElementById('identificador');
+    const erroIdentificador = document.getElementById('erro-identificador');
+    const form = document.getElementById('form-login');
+
+  
+    identificadorInput.addEventListener('input', () => {
+      let valor = identificadorInput.value.replace(/\D/g, '');
+
+      if (valor.length <= 11) {
+        valor = valor.replace(/^(\d{3})(\d)/, '$1.$2');
+        valor = valor.replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
+        valor = valor.replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3-$4');
+      } else {
+        valor = valor.replace(/^(\d{4})(\d)/, '$1-$2');
+        valor = valor.replace(/-(\d)(\d{5})(\d)/, '-$1/$2-$3');
+      }
+
+      identificadorInput.value = valor;
+    });
+
+   
+    form.addEventListener('submit', function (e) {
+      e.preventDefault(); 
+
+      const valor = identificadorInput.value.trim();
+      erroIdentificador.textContent = '';
+
+      const cpfRegex = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/;
+      const contaRegex = /^\d{4}-\d\/\d{5}-\d$/;
+
+      if (!cpfRegex.test(valor) && !contaRegex.test(valor)) {
+        erroIdentificador.textContent = 'Digite um CPF (000.000.000-00) ou Conta/Agência (0000-0/00000-0) válido.';
+        return;
+      }
+
+      window.location.href = 'PgInicial.html';
+    });
+  </script>
+
+</body>
+</html>

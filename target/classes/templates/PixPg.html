@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Banco Azul | Pix</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --azul: #0047AB;
+      --azul-escuro: #002f6c;
+      --cinza-claro: #f4f7fb;
+      --verde: #28a745;
+      --vermelho: #dc3545;
+      --amarelo: #ffc107;
+      --gradiente: linear-gradient(135deg, #e0ecff, #ffffff);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--gradiente);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      padding: 20px;
+      margin: 0;
+    }
+
+    .pix-container {
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      padding: 36px;
+      width: 100%;
+      max-width: 480px;
+      transition: all 0.3s ease;
+      animation: slideUp 0.6s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    h1 {
+      color: var(--azul);
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 15px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 14px;
+      margin-top: 8px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: border 0.3s;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--azul);
+      outline: none;
+    }
+
+    button {
+      background: var(--azul);
+      color: white;
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 14px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-top: 30px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s;
+    }
+
+    button:hover {
+      background: var(--azul-escuro);
+      transform: scale(1.02);
+    }
+
+    .modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      z-index: 999;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal.success { background: #d4edda; color: #155724; }
+    .modal.error { background: #f8d7da; color: #721c24; }
+    .modal.waiting { background: #fff3cd; color: #856404; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, -60%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+  </style>
+</head>
+<body>
+  <div class="pix-container">
+    <h1>Transferência Pix</h1>
+    <form id="pixForm">
+      <label for="tipoChave">Tipo de Chave Pix</label>
+      <select id="tipoChave" required>
+        <option value="cpf">CPF</option>
+        <option value="email">Email</option>
+        <option value="celular">Número de Celular</option>
+        <option value="aleatoria">Chave Aleatória</option>
+      </select>
+
+      <label for="chave">Chave Pix</label>
+      <input type="text" id="chave" placeholder="Digite a chave Pix" required />
+
+      <label for="valor">Valor (R$)</label>
+      <input type="number" id="valor" placeholder="Ex: 250.00" step="0.01" min="0.01" required />
+
+      <label for="descricao">Descrição (opcional)</label>
+      <textarea id="descricao" rows="3" placeholder="Ex: pagamento de serviços..."></textarea>
+
+      <button type="submit">Enviar Pix</button>
+    </form>
+  </div>
+
+  <div id="modal" class="modal"></div>
+
+  <script>
+    const form = document.getElementById('pixForm');
+    const modal = document.getElementById('modal');
+    const tipoChave = document.getElementById('tipoChave');
+    const campoChave = document.getElementById('chave');
+
+    let transacoesRecentes = JSON.parse(localStorage.getItem('transacoesRecentes') || '[]');
+    const tempoRepeticaoMin = 2;
+    const limiteAlerta = 1000;
+
+    function formatarCPF(valor) {
+      return valor.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    }
+
+    campoChave.addEventListener('input', () => {
+      if (tipoChave.value === 'cpf') {
+        let v = campoChave.value.replace(/\D/g, '').slice(0, 11);
+        campoChave.value = formatarCPF(v);
+      }
+    });
+
+    function validarCPF(cpf) {
+      cpf = cpf.replace(/[^\d]+/g, '');
+      if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+      let soma = 0, resto;
+      for (let i = 1; i <= 9; i++) soma += parseInt(cpf[i - 1]) * (11 - i);
+      resto = (soma * 10) % 11;
+      if (resto === 10 || resto === 11) resto = 0;
+      if (resto !== parseInt(cpf[9])) return false;
+      soma = 0;
+      for (let i = 1; i <= 10; i++) soma += parseInt(cpf[i - 1]) * (12 - i);
+      resto = (soma * 10) % 11;
+      if (resto === 10 || resto === 11) resto = 0;
+      return resto === parseInt(cpf[10]);
+    }
+
+    function mostrarModal(msg, tipo) {
+      modal.textContent = msg;
+      modal.className = `modal ${tipo}`;
+      modal.style.display = 'block';
+      setTimeout(() => modal.style.display = 'none', 4000);
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const chave = campoChave.value.trim();
+      const tipo = tipoChave.value;
+      const valor = parseFloat(document.getElementById('valor').value.trim());
+      const descricao = document.getElementById('descricao').value.trim();
+      const agora = new Date();
+
+      if (valor < 1 || valor > 10000) {
+        mostrarModal("❌ Valor fora do intervalo permitido (R$1 - R$10.000)", "error");
+        return;
+      }
+
+      if (tipo === 'cpf' && !validarCPF(chave)) {
+        mostrarModal("❌ CPF inválido.", "error");
+        return;
+      }
+
+      if (tipo === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(chave)) {
+        mostrarModal("❌ Email inválido.", "error");
+        return;
+      }
+
+      if (tipo === 'celular' && !/^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/.test(chave)) {
+        mostrarModal("❌ Número de celular inválido.", "error");
+        return;
+      }
+
+      if (tipo === 'aleatoria' && chave.length < 8) {
+        mostrarModal("❌ Chave aleatória muito curta.", "error");
+        return;
+      }
+
+      if (agora.getHours() < 6 || agora.getHours() >= 23) {
+        mostrarModal("⏰ Fora do horário permitido (6h às 23h)", "error");
+        return;
+      }
+
+      const duplicada = transacoesRecentes.find(t =>
+        t.chave === chave &&
+        t.valor === valor &&
+        ((agora - new Date(t.data)) / 60000) < tempoRepeticaoMin
+      );
+
+      if (duplicada) {
+        mostrarModal("⚠️ Transação duplicada em menos de 2 minutos.", "error");
+        return;
+      }
+
+      if (valor > limiteAlerta) {
+        mostrarModal("🔒 Valor alto. Aguardando aprovação manual.", "waiting");
+        return;
+      }
+
+      transacoesRecentes.push({ chave, valor, descricao, data: agora });
+      localStorage.setItem('transacoesRecentes', JSON.stringify(transacoesRecentes));
+
+      mostrarModal("✅ Pix enviado com sucesso!", "success");
+      form.reset();
+    });
+  </script>
+</body>
+</html>

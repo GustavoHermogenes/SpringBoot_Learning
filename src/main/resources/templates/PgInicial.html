@@ -1,0 +1,483 @@
+
+}<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco Digital Financia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="gradient-bg text-white p-2 rounded-lg">
+                    <i class="fas fa-university text-2xl"></i>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">Financia</h1>
+            </div>
+            
+            <nav class="hidden md:flex space-x-6">
+                <a href="#" class="text-blue-600 font-medium">Início</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600">Conta</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600">Cartões</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600">Investimentos</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600">Empréstimos</a>
+                <a href="#" class="text-gray-600 hover:text-blue-600">Ajuda</a>
+            </nav>
+            
+            <div class="flex items-center space-x-4">
+                <button class="relative">
+                    <i class="fas fa-bell text-gray-600 text-xl"></i>
+                    <div class="notification-dot"></div>
+                </button>
+                <div class="hidden md:flex items-center space-x-2 cursor-pointer">
+                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+                        <i class="fas fa-user text-blue-600"></i>
+                    </div>
+                    <span class="text-gray-700">Olá, <span th:text="${cliente.nome}"></span></span>
+                </div>
+                <button class="md:hidden">
+                    <i class="fas fa-bars text-gray-600 text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-6">
+        <section class="mb-8">
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800">Bem-vindo de volta, <span th:text="${cliente.nome}" ></span>!</h2>
+                        <p class="text-gray-600">Aqui está um resumo da sua conta</p>
+                    </div>
+                    <button class="mt-4 md:mt-0 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition">
+                        <i class="fas fa-plus"></i>
+                        <span>Nova transferência</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-8">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Suas contas</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white rounded-xl shadow-sm p-6 card-hover transition cursor-pointer">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h4 class="font-medium text-gray-700">Conta Corrente</h4>
+                            <p class="text-sm text-gray-500">•••• 6789</p>
+                        </div>
+                        <i class="fas fa-wallet text-blue-500 text-xl"></i>
+                    </div>
+                    <div class="mb-4">
+                        <p class="text-2xl font-bold text-gray-800">R$ 12.456,89</p>
+                        <p class="text-sm text-green-600">+2,5% desde o último mês</p>
+                    </div>
+                    <div class="flex space-x-3">
+                        <button class="text-blue-600 text-sm font-medium">Detalhes</button>
+                        <button class="text-blue-600 text-sm font-medium">Transferir</button>
+                    </div>
+                </div>
+                
+               
+                <div class="bg-white rounded-xl shadow-sm p-6 card-hover transition cursor-pointer">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h4 class="font-medium text-gray-700">Poupança</h4>
+                            <p class="text-sm text-gray-500">•••• 1234</p>
+                        </div>
+                        <i class="fas fa-piggy-bank text-green-500 text-xl"></i>
+                    </div>
+                    <div class="mb-4">
+                        <p class="text-2xl font-bold text-gray-800">R$ 8.720,50</p>
+                        <p class="text-sm text-green-600">+0,5% este mês</p>
+                    </div>
+                    <div class="flex space-x-3">
+                        <button class="text-blue-600 text-sm font-medium">Detalhes</button>
+                        <button class="text-blue-600 text-sm font-medium">Resgatar</button>
+                    </div>
+                </div>
+                
+                
+                <div class="bg-white rounded-xl shadow-sm p-6 card-hover transition cursor-pointer">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h4 class="font-medium text-gray-700">Investimentos</h4>
+                            <p class="text-sm text-gray-500">Carteira Digital</p>
+                        </div>
+                        <i class="fas fa-chart-line text-purple-500 text-xl"></i>
+                    </div>
+                    <div class="mb-4">
+                        <p class="text-2xl font-bold text-gray-800">R$ 24.150,30</p>
+                        <p class="text-sm text-green-600">+5,2% este ano</p>
+                    </div>
+                    <div class="flex space-x-3">
+                        <button class="text-blue-600 text-sm font-medium">Detalhes</button>
+                        <button class="text-blue-600 text-sm font-medium">Investir</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold text-gray-800">Seus cartões</h3>
+                <button class="text-blue-600 text-sm font-medium">Ver todos</button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+               
+                <div class="gradient-bg text-white rounded-xl p-6 shadow-lg relative overflow-hidden h-48 card-hover transition cursor-pointer">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-10 -mt-10"></div>
+                    <div class="absolute bottom-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-10 -mb-10"></div>
+                    
+                    <div class="flex justify-between items-start mb-8">
+                        <div>
+                            <p class="text-sm opacity-80">Cartão Principal</p>
+                            <h4 class="font-bold text-xl">Financia Platinum</h4>
+                        </div>
+                        <i class="fab fa-cc-visa text-3xl"></i>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <p class="text-sm tracking-widest mb-1">•••• •••• •••• 4567</p>
+                        <div class="flex justify-between">
+                            <p class="text-sm">Rafael Silva</p>
+                            <p class="text-sm">08/28</p>
+                        </div>
+                    </div>
+                </div>
+                
+              
+                <div class="bg-gray-800 text-white rounded-xl p-6 shadow-lg relative overflow-hidden h-48 card-hover transition cursor-pointer">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-10 -mt-10"></div>
+                    <div class="absolute bottom-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-10 -mb-10"></div>
+                    
+                    <div class="flex justify-between items-start mb-8">
+                        <div>
+                            <p class="text-sm opacity-80">Cartão Virtual</p>
+                            <h4 class="font-bold text-xl">Financia Digital</h4>
+                        </div>
+                        <i class="fas fa-sim-card text-3xl text-blue-400"></i>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <p class="text-sm tracking-widest mb-1">•••• •••• •••• 8910</p>
+                        <div class="flex justify-between">
+                            <p class="text-sm">João G.</p>
+                            <p class="text-sm">05/30</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+       
+        <section class="mb-8">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Ações rápidas</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <button class="bg-white rounded-xl shadow-sm p-4 flex flex-col items-center justify-center hover:bg-blue-50 transition">
+                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mb-2">
+                        <i class="fas fa-exchange-alt text-blue-600"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700">Transferir</span>
+                </button>
+                
+                <button class="bg-white rounded-xl shadow-sm p-4 flex flex-col items-center justify-center hover:bg-blue-50 transition">
+                    <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-2">
+                        <i class="fas fa-barcode text-green-600"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700">Pagar</span>
+                </button>
+                
+                <button class="bg-white rounded-xl shadow-sm p-4 flex flex-col items-center justify-center hover:bg-blue-50 transition">
+                    <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mb-2">
+                        <i class="fas fa-money-bill-wave text-purple-600"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700">Depositar</span>
+                </button>
+                
+                <a href="PixPg.html" class="bg-white rounded-xl shadow-sm p-4 flex flex-col items-center justify-center hover:bg-blue-50 transition">
+                    <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center mb-2">
+                        <i class="fas fa-qrcode text-yellow-600"></i>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700">Pix</span>
+                  </a>
+            </div>
+        </section>
+
+        <section class="mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold text-gray-800">Área Pix</h3>
+                <button class="text-blue-600 text-sm font-medium">Ver histórico</button>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 transition cursor-pointer">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
+                                <i class="fas fa-paper-plane text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Enviar Pix</h4>
+                                <p class="text-sm text-gray-500">Transferência imediata</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 transition cursor-pointer">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
+                                <i class="fas fa-hand-holding-usd text-green-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Receber Pix</h4>
+                                <p class="text-sm text-gray-500">Gerar QR Code ou chave</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 transition cursor-pointer">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
+                                <i class="fas fa-key text-purple-600"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-gray-800">Minhas chaves</h4>
+                                <p class="text-sm text-gray-500">Gerenciar chaves Pix</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 pt-6 border-t border-gray-200 flex flex-col items-center">
+                    <div class="w-40 h-40 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-qrcode text-4xl text-gray-400"></i>
+                    </div>
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
+                        Mostrar QR Code
+                    </button>
+                    <p class="text-sm text-gray-500 mt-2">Toque para exibir seu QR Code Pix</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold text-gray-800">Transações recentes</h3>
+                <button class="text-blue-600 text-sm font-medium">Ver histórico completo</button>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                <div class="p-4 border-b border-gray-100 flex justify-between items-center transaction-item cursor-pointer">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
+                            <i class="fas fa-shopping-bag text-red-500"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-800">Amazon.com</p>
+                            <p class="text-xs text-gray-500">Hoje, 14:30 • Compras online</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-medium text-red-500">- R$ 189,90</p>
+                        <p class="text-xs text-gray-500">Cartão •••• 4567</p>
+                    </div>
+                </div>
+                
+                <div class="p-4 border-b border-gray-100 flex justify-between items-center transaction-item cursor-pointer">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+                            <i class="fas fa-arrow-down text-green-500"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-800">Depósito</p>
+                            <p class="text-xs text-gray-500">Ontem, 09:15 • Salário</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-medium text-green-500">+ R$ 4.250,00</p>
+                        <p class="text-xs text-gray-500">Conta corrente</p>
+                    </div>
+                </div>
+                
+                <div class="p-4 border-b border-gray-100 flex justify-between items-center transaction-item cursor-pointer">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                            <i class="fas fa-utensils text-blue-500"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-800">Restaurante Bella</p>
+                            <p class="text-xs text-gray-500">Ontem, 20:45 • Alimentação</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-medium text-red-500">- R$ 87,50</p>
+                        <p class="text-xs text-gray-500">Cartão •••• 4567</p>
+                    </div>
+                </div>
+                
+                <div class="p-4 flex justify-between items-center transaction-item cursor-pointer">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
+                            <i class="fas fa-mobile-alt text-purple-500"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-800">Pix recebido</p>
+                            <p class="text-xs text-gray-500">05/06/2023 • João Silva</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-medium text-green-500">+ R$ 250,00</p>
+                        <p class="text-xs text-gray-500">Conta corrente</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Offers Section -->
+        <section class="mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold text-gray-800">Ofertas para você</h3>
+                <button class="text-blue-600 text-sm font-medium">Ver todas</button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Offer 1 -->
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl p-6 shadow-lg relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-10 -mt-10"></div>
+                    
+                    <div class="relative z-10">
+                        <h4 class="font-bold text-xl mb-2">Empréstimo pessoal</h4>
+                        <p class="text-sm opacity-90 mb-4">Taxa especial de 1,29% ao mês</p>
+                        <button class="bg-white text-blue-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-50 transition">
+                            Simular agora
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Offer 2 -->
+                <div class="bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-xl p-6 shadow-lg relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-10 -mt-10"></div>
+                    
+                    <div class="relative z-10">
+                        <h4 class="font-bold text-xl mb-2">Investimento Plus</h4>
+                        <p class="text-sm opacity-90 mb-4">Rendimento de 110% do CDI</p>
+                        <button class="bg-white text-purple-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-purple-50 transition">
+                            Conhecer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-50 border-t border-gray-200 py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h4 class="font-bold text-gray-800 mb-4">Financia</h4>
+                    <p class="text-gray-600 text-sm">O banco digital feito para você conquistar seus sonhos com praticidade e segurança.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-gray-800 mb-4">Produtos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-600 text-sm hover:text-blue-600">Conta digital</a></li>
+                        <li><a href="#" class="text-gray-600 text-sm hover:text-blue-600">Cartões</a></li>
+                        <li><a href="#" class="text-gray-600 text-sm hover:text-blue-600">Investimentos</a></li>
+                        <li><a href="#" class="text-gray-600 text-sm hover:text-blue-600">Empréstimos</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-gray-800 mb-4">Ajuda</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-600 text-sm hover:text-blue-600">Central de ajuda</a></li>
+                        <li><a href="#" class="text-gray-600 text-sm hover:text-blue-600">Segurança</a></li>
+                        <li><a href="#" class="text-gray-600 text-sm hover:text-blue-600">Perguntas frequentes</a></li>
+                        <li><a href="#" class="text-gray-600 text-sm hover:text-blue-600">Fale conosco</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-gray-800 mb-4">Baixe o app</h4>
+                    <div class="flex space-x-2 mb-4">
+                        <button class="bg-gray-800 text-white px-3 py-2 rounded flex items-center space-x-2">
+                            <i class="fab fa-apple"></i>
+                            <span class="text-xs">App Store</span>
+                        </button>
+                        <button class="bg-gray-800 text-white px-3 py-2 rounded flex items-center space-x-2">
+                            <i class="fab fa-google-play"></i>
+                            <span class="text-xs">Play Store</span>
+                        </button>
+                    </div>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-600 hover:text-blue-600"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-blue-600"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-blue-600"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-blue-600"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-200 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 text-sm mb-4 md:mb-0">© 2023 Financia. Todos os direitos reservados.</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-500 text-sm hover:text-blue-600">Termos de uso</a>
+                    <a href="#" class="text-gray-500 text-sm hover:text-blue-600">Política de privacidade</a>
+                    <a href="#" class="text-gray-500 text-sm hover:text-blue-600">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu (hidden by default) -->
+    <div id="mobileMenu" class="fixed inset-0 bg-white z-50 hidden flex flex-col p-6">
+    
+    <script src="script.js"></script>
+        <div class="flex justify-between items-center mb-8">
+            <div class="flex items-center space-x-2">
+                <div class="gradient-bg text-white p-2 rounded-lg">
+                    <i class="fas fa-university text-2xl"></i>
+                </div>
+                <h1 class="text-xl font-bold text-gray-800">Financia</h1>
+            </div>
+            <button id="closeMenu" class="text-gray-600">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+        </div>
+        
+        <nav class="flex-1">
+            <ul class="space-y-6">
+                <li><a href="#" class="block text-blue-600 font-medium text-lg">Início</a></li>
+                <li><a href="#" class="block text-gray-600 font-medium text-lg">Conta</a></li>
+                <li><a href="#" class="block text-gray-600 font-medium text-lg">Cartões</a></li>
+                <li><a href="#" class="block text-gray-600 font-medium text-lg">Investimentos</a></li>
+                <li><a href="#" class="block text-gray-600 font-medium text-lg">Empréstimos</a></li>
+                <li><a href="#" class="block text-gray-600 font-medium text-lg">Ajuda</a></li>
+            </ul>
+        </nav>
+        
+        <div class="mt-auto pt-6 border-t border-gray-200">
+            <div class="flex items-center space-x-3 mb-4">
+                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                    <i class="fas fa-user text-blue-600"></i>
+                </div>
+                <div>
+                    <p class="font-medium">Rafael Silva</p>
+                    <p class="text-sm text-gray-500">rafael@email.com</p>
+                </div>
+            </div>
+            <button class="w-full bg-gray-100 text-gray-800 py-3 rounded-lg font-medium">
+                Sair da conta
+            </button>
+        </div>
+    </div>

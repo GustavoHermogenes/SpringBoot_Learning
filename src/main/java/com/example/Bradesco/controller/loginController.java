@@ -42,13 +42,13 @@ public class LoginController {
 
     // Método que mapeia a URL "/login" para realizar o login
     @GetMapping("/login")
-    public String realizarLogin(@RequestParam Integer agencia, @RequestParam Integer numero_conta, @RequestParam String senha, Model model) {
+    public String realizarLogin(@RequestParam Integer agencia, @RequestParam Integer numero_conta, @RequestParam String senha, Model model, @RedirectAttributes RedirectAttributes) {
         Conta conta = contaRepository.LoginAgenciaConta(agencia, numero_conta, senha);
     
         if (conta != null) {
-            model.addAttribute("conta", conta);
-            model.addAttribute("cliente", conta.getCliente());
-            return "/index";
+            RedirectAttributes.addAttribute("conta", conta.getId_conta());
+            RedirectAttributes.addAttribute("id_cliente", conta.getCliente().getId_cliente());
+            return "redirect:/index";
         }else{
             model.addAttribute("erro", "Dados da conta inválidos");
             return "/login";
@@ -97,15 +97,31 @@ public class LoginController {
 
         
         return "redirect:/loginForm";
-
+        
     }
 
     @PostMapping("/contaNova")
     public String cadastrarConta(@ModelAttribute Conta conta,
+                                @RequestParam String cpf,
+                                @RequestParam String senha,
+                                @RequestParam String confirmeSenha,
                                  Model model,
                                  RedirectAttributes redirectAttributes){
-          
-                conta.setAgencia(237);
+        Cliente cliente = clienteRepository.findByCpf(cpf).orElse(null);
+
+        if(cliente == null){
+            model.addAttribute("erro", "Cliente não encontrado");
+            return "contaNova";
+        }
+
+        if (!senha.equals(confirmeSenha)) {
+            model.addAttribute("erro", "As senhas não conferem");
+            return "contaNova";
+        }
+
+        conta.setCliente(cliente);
+        
+        conta.setAgencia(237);
 
         Integer maiorNumeroConta = contaRepository.maiorNumero();
         if (maiorNumeroConta == null) {
@@ -118,10 +134,6 @@ public class LoginController {
         conta.setSaldo(BigDecimal.ZERO);
 
         conta.setStatus(Conta.status.ATIVA);
-
-        conta.setCliente(clienteRepository.findByCpf(conta.getCliente().getCpf())
-                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado")));
-
         contaRepository.save(conta);
 
         redirectAttributes.addAttribute("agencia", conta.getAgencia());

@@ -1,5 +1,7 @@
 package com.example.Bradesco.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -19,6 +21,6 @@ public interface ContaRepository extends CrudRepository<Conta, Long> {
 
     @Query("SELECT MAX(c.numero_conta) FROM Conta c")
     Integer maiorNumero();
-
-
+    
+    // List<Conta> findAllByCliente_id_cliente(Long id_cliente);
 }
