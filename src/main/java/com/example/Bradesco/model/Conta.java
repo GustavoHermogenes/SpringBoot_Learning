@@ -2,6 +2,8 @@ package com.example.Bradesco.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -42,6 +45,10 @@ public class Conta {
     @Column(length = 25)
     private String senha;
 
+    @Column(unique = true)
+    private String chavePix;
+
+
     @Enumerated(EnumType.STRING)
     private status status;
     public enum status {
@@ -52,9 +59,12 @@ public class Conta {
     @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
 
+    @OneToMany(mappedBy = "conta")
+    private List<Cartao> cartoes = new ArrayList<>();
 
     // Inicio dos métodos getters
 
+    
     public Long getId_conta() {
         return id_conta;
     }
@@ -83,6 +93,10 @@ public class Conta {
         return senha;
     }
 
+    public String getChavePix() {
+    return chavePix;
+}
+
     public status getStatus() {
         return status;
     }
@@ -90,8 +104,17 @@ public class Conta {
     public Cliente getCliente() {
         return cliente;
     }
+    public List<Cartao> getCartoes() {
+    return cartoes;
+}
+
 
     // inicio do métodos setters
+
+    
+    public void setCartoes(List<Cartao> cartoes) {
+        this.cartoes = cartoes;
+    }
 
     public void setNumero_conta(Integer numero_conta) {
         this.numero_conta = numero_conta;
@@ -116,6 +139,10 @@ public class Conta {
     public void setSenha(String senha) {
         this.senha = senha;
     }
+    
+public void setChavePix(String chavePix) {
+    this.chavePix = chavePix;
+}
 
     public void setStatus(status status) {
         this.status = status;

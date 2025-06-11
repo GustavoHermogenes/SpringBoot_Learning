@@ -1,253 +1,343 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Banco Azul | Pix</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --azul: #0047AB;
-      --azul-escuro: #002f6c;
-      --cinza-claro: #f4f7fb;
-      --verde: #28a745;
-      --vermelho: #dc3545;
-      --amarelo: #ffc107;
-      --gradiente: linear-gradient(135deg, #e0ecff, #ffffff);
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PIX - Banco Inter (Bradesco Style)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root {
+            --bradesco-red: #cc092f;
+            --bradesco-dark-blue: #1a2e55;
+            --bradesco-light-blue: #e6f0ff;
+        }
 
-    * {
-      box-sizing: border-box;
-    }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+        }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--gradiente);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      padding: 20px;
-      margin: 0;
-    }
+        .header {
+            background: linear-gradient(135deg, var(--bradesco-dark-blue) 0%, var(--bradesco-red) 100%);
+        }
 
-    .pix-container {
-      background: #ffffff;
-      border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-      padding: 36px;
-      width: 100%;
-      max-width: 480px;
-      transition: all 0.3s ease;
-      animation: slideUp 0.6s ease-out;
-    }
+        .btn-primary {
+            background-color: var(--bradesco-red);
+            color: white;
+        }
 
-    @keyframes slideUp {
-      from { transform: translateY(50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
+        .btn-primary:hover {
+            background-color: #a80726;
+        }
 
-    h1 {
-      color: var(--azul);
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 2rem;
-    }
+        .btn-secondary {
+            background-color: var(--bradesco-dark-blue);
+            color: white;
+        }
 
-    label {
-      font-weight: 600;
-      display: block;
-      margin-top: 15px;
-    }
+        .btn-secondary:hover {
+            background-color: #142445;
+        }
 
-    input, textarea, select {
-      width: 100%;
-      padding: 14px;
-      margin-top: 8px;
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      font-size: 1rem;
-      transition: border 0.3s;
-    }
+        .pix-icon {
+            color: var(--bradesco-red);
+        }
 
-    input:focus, textarea:focus, select:focus {
-      border-color: var(--azul);
-      outline: none;
-    }
+        .card {
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
 
-    button {
-      background: var(--azul);
-      color: white;
-      width: 100%;
-      padding: 16px;
-      border: none;
-      border-radius: 14px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      margin-top: 30px;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s;
-    }
+        .input-field {
+            border: 1px solid #ddd;
+            transition: all 0.3s;
+        }
 
-    button:hover {
-      background: var(--azul-escuro);
-      transform: scale(1.02);
-    }
+        .input-field:focus {
+            border-color: var(--bradesco-red);
+            box-shadow: 0 0 0 2px rgba(204, 9, 47, 0.2);
+        }
 
-    .modal {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: white;
-      padding: 20px 30px;
-      border-radius: 12px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-      z-index: 999;
-      display: none;
-      animation: fadeIn 0.3s ease;
-    }
+        .tab-active {
+            border-bottom: 3px solid var(--bradesco-red);
+            color: var(--bradesco-red);
+            font-weight: 600;
+        }
 
-    .modal.success { background: #d4edda; color: #155724; }
-    .modal.error { background: #f8d7da; color: #721c24; }
-    .modal.waiting { background: #fff3cd; color: #856404; }
+        /* Mensagem de erro/sucesso — agora ocultas (usaremos popups) */
+        #mensagem-validacao {
+            display: none;
+        }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translate(-50%, -60%); }
-      to { opacity: 1; transform: translate(-50%, -50%); }
-    }
-  </style>
+        /* Popup modal */
+        .modal-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-bg.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+        }
+
+        .modal .title {
+            font-weight: 700;
+            margin-bottom: 12px;
+            font-size: 1.25rem;
+        }
+
+        .modal .msg-error {
+            color: #cc092f;
+        }
+
+        .modal .msg-success {
+            color: #1a7f29;
+        }
+
+        .modal button.close-btn {
+            margin-top: 20px;
+            background-color: var(--bradesco-red);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .modal button.close-btn:hover {
+            background-color: #a80726;
+        }
+
+        .msg-success {
+            color: #047857;
+            /* verde escuro */
+        }
+
+        .msg-error {
+            color: #b91c1c;
+            /* vermelho escuro */
+        }
+    </style>
 </head>
-<body>
-  <div class="pix-container">
-    <h1>Transferência Pix</h1>
-    <form id="pixForm">
-      <label for="tipoChave">Tipo de Chave Pix</label>
-      <select id="tipoChave" required>
-        <option value="cpf">CPF</option>
-        <option value="email">Email</option>
-        <option value="celular">Número de Celular</option>
-        <option value="aleatoria">Chave Aleatória</option>
-      </select>
 
-      <label for="chave">Chave Pix</label>
-      <input type="text" id="chave" placeholder="Digite a chave Pix" required />
+<body class="min-h-screen">
+    <div class="header text-white py-4 px-6 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-university text-2xl"></i>
+                <h1 class="text-xl font-bold">Banco Inter</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="text-sm">Olá, Cliente</span>
+                <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center">
+                    <i class="fas fa-user text-gray-700"></i>
+                </div>
+            </div>
+        </div>
+    </div>
 
-      <label for="valor">Valor (R$)</label>
-      <input type="number" id="valor" placeholder="Ex: 250.00" step="0.01" min="0.01" required />
+    <div class="container mx-auto px-4 py-8 max-w-3xl">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">Enviar PIX</h2>
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-question-circle text-gray-500"></i>
+                <span class="text-sm text-gray-600">Ajuda</span>
+            </div>
+        </div>
 
-      <label for="descricao">Descrição (opcional)</label>
-      <textarea id="descricao" rows="3" placeholder="Ex: pagamento de serviços..."></textarea>
+        <div class="card bg-white p-6 mb-6">
+            <div class="flex border-b mb-6">
+                <button class="tab-active px-4 py-2 mr-4" data-tab="enviar">Enviar</button>
+            </div>
 
-      <button type="submit">Enviar Pix</button>
-    </form>
-  </div>
+            <div id="mensagem-validacao"></div>
 
-  <div id="modal" class="modal"></div>
+            <div th:if="${erro}" class="bg-red-100 text-red-700 p-3 rounded mb-4" th:text="${erro}"></div>
+            <div th:if="${aviso}" class="bg-yellow-100 text-yellow-800 p-3 rounded mb-4" th:text="${aviso}"></div>
+            <div th:if="${sucesso}" class="bg-green-100 text-green-800 p-3 rounded mb-4" th:text="${sucesso}"></div>
 
-  <script>
-    const form = document.getElementById('pixForm');
-    const modal = document.getElementById('modal');
-    const tipoChave = document.getElementById('tipoChave');
-    const campoChave = document.getElementById('chave');
 
-    let transacoesRecentes = JSON.parse(localStorage.getItem('transacoesRecentes') || '[]');
-    const tempoRepeticaoMin = 2;
-    const limiteAlerta = 1000;
 
-    function formatarCPF(valor) {
-      return valor.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-    }
+            <form th:action="@{/pix}" method="post">
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-medium mb-2" for="valor">Valor</label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-3 text-gray-500">R$</span>
+                        <input id="valor" type="text" name="valor"
+                            class="input-field w-full pl-8 py-3 px-4 rounded-lg focus:outline-none" placeholder="0,00"
+                            autocomplete="off" />
+                    </div>
+                </div>
 
-    campoChave.addEventListener('input', () => {
-      if (tipoChave.value === 'cpf') {
-        let v = campoChave.value.replace(/\D/g, '').slice(0, 11);
-        campoChave.value = formatarCPF(v);
-      }
-    });
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-medium mb-2" for="destinatario">Para quem você quer
+                        enviar?</label>
+                    <div class="grid grid-cols-4 gap-2 mb-4">
+                        <button class="bg-gray-100 py-2 px-3 rounded-lg text-sm flex flex-col items-center"
+                            data-method="celular" type="button">
+                            <i class="fas fa-mobile-alt mb-1"></i>
+                            <span>Celular</span>
+                        </button>
+                        <button class="bg-gray-100 py-2 px-3 rounded-lg text-sm flex flex-col items-center"
+                            data-method="email" type="button">
+                            <i class="fas fa-envelope mb-1"></i>
+                            <span>E-mail</span>
+                        </button>
+                        <button class="bg-gray-100 py-2 px-3 rounded-lg text-sm flex flex-col items-center"
+                            data-method="cpfcnpj" type="button">
+                            <i class="fas fa-id-card mb-1"></i>
+                            <span>CPF/CNPJ</span>
+                        </button>
+                    </div>
+                    <input id="destinatario" type="text" name="chavePix"
+                        class="input-field w-full py-3 px-4 rounded-lg focus:outline-none"
+                        placeholder="Digite a chave PIX" autocomplete="off" maxlength="18" />
+                </div>
 
-    function validarCPF(cpf) {
-      cpf = cpf.replace(/[^\d]+/g, '');
-      if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
-      let soma = 0, resto;
-      for (let i = 1; i <= 9; i++) soma += parseInt(cpf[i - 1]) * (11 - i);
-      resto = (soma * 10) % 11;
-      if (resto === 10 || resto === 11) resto = 0;
-      if (resto !== parseInt(cpf[9])) return false;
-      soma = 0;
-      for (let i = 1; i <= 10; i++) soma += parseInt(cpf[i - 1]) * (12 - i);
-      resto = (soma * 10) % 11;
-      if (resto === 10 || resto === 11) resto = 0;
-      return resto === parseInt(cpf[10]);
-    }
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-medium mb-2" for="descricao">Descrição
+                        (opcional)</label>
+                    <input id="descricao" type="text" class="input-field w-full py-3 px-4 rounded-lg focus:outline-none"
+                        placeholder="Ex: Pagamento de serviços" autocomplete="off" />
+                </div>
 
-    function mostrarModal(msg, tipo) {
-      modal.textContent = msg;
-      modal.className = `modal ${tipo}`;
-      modal.style.display = 'block';
-      setTimeout(() => modal.style.display = 'none', 4000);
-    }
+                <div class="flex items-center mb-6">
+                    <input id="salvar" type="checkbox" class="mr-2" />
+                    <label for="salvar" class="text-sm text-gray-600">Salvar como favorito</label>
+                </div>
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const chave = campoChave.value.trim();
-      const tipo = tipoChave.value;
-      const valor = parseFloat(document.getElementById('valor').value.trim());
-      const descricao = document.getElementById('descricao').value.trim();
-      const agora = new Date();
+                <div class="bg-blue-50 p-4 rounded-lg mb-6 flex items-start">
+                    <i class="fas fa-info-circle text-blue-500 mt-1 mr-3"></i>
+                    <p class="text-sm text-gray-700">O valor máximo para envio via PIX é de R$ 5.000,00 por transação.
+                    </p>
+                </div>
 
-      if (valor < 1 || valor > 10000) {
-        mostrarModal("❌ Valor fora do intervalo permitido (R$1 - R$10.000)", "error");
-        return;
-      }
+                <div class="flex justify-between">
+                    <button class="btn-secondary py-3 px-6 rounded-lg font-medium" id="btnCancelar" type="button">
+                        Cancelar
+                    </button>
+                    <button class="btn-primary py-3 px-6 rounded-lg font-medium flex items-center" type="submit">
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        Enviar PIX
+                    </button>
+                </div>
+            </form>
+        </div>
 
-      if (tipo === 'cpf' && !validarCPF(chave)) {
-        mostrarModal("❌ CPF inválido.", "error");
-        return;
-      }
+        <div class="card bg-white p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                <i class="fas fa-bolt pix-icon mr-2"></i>
+                PIX é instantâneo e gratuito
+            </h3>
+            <div class="grid grid-cols-3 gap-4">
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <i class="fas fa-clock text-red-500"></i>
+                    </div>
+                    <p class="text-sm text-gray-700">Disponível 24/7</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <i class="fas fa-money-bill-wave text-blue-500"></i>
+                    </div>
+                    <p class="text-sm text-gray-700">Sem tarifas</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-2">
+                        <i class="fas fa-check text-green-500"></i>
+                    </div>
+                    <p class="text-sm text-gray-700">Transferência imediata</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-      if (tipo === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(chave)) {
-        mostrarModal("❌ Email inválido.", "error");
-        return;
-      }
+    <footer class="bg-gray-100 py-6 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center">
+                        <i class="fas fa-university text-xl mr-2 text-gray-700"></i>
+                        <span class="font-medium text-gray-800">Banco Inter</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">© 2023 Banco Inter. Todos os direitos reservados.</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-sm text-gray-600 hover:text-gray-800">Segurança</a>
+                    <a href="#" class="text-sm text-gray-600 hover:text-gray-800">Termos de uso</a>
+                    <a href="#" class="text-sm text-gray-600 hover:text-gray-800">Privacidade</a>
+                    <a href="#" class="text-sm text-gray-600 hover:text-gray-800">Ajuda</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-      if (tipo === 'celular' && !/^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/.test(chave)) {
-        mostrarModal("❌ Número de celular inválido.", "error");
-        return;
-      }
+    <div id="popupModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg shadow-lg w-96 p-6 relative">
+            <button id="popupClose"
+                class="absolute top-2 right-2 text-gray-600 hover:text-gray-900 font-bold text-xl">&times;</button>
+            <h2 id="popupTitle" class="text-lg font-semibold mb-2"></h2>
+            <p id="popupMessage" class="mb-2"></p>
+            <p id="popupReason" class="text-sm text-gray-600"></p>
+        </div>
+    </div>
+    </div>
+    </div>
+    <script>
+        // Função para validar CPF
+        function validarCPF(cpf) {
+            cpf = cpf.replace(/[^\d]+/g, '');
+            if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+            let soma = 0, resto;
+            for (let i = 1; i <= 9; i++) soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+            resto = (soma * 10) % 11;
+            if (resto === 10 || resto === 11) resto = 0;
+            if (resto !== parseInt(cpf.substring(9, 10))) return false;
+            soma = 0;
+            for (let i = 1; i <= 10; i++) soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+            resto = (soma * 10) % 11;
+            if (resto === 10 || resto === 11) resto = 0;
+            if (resto !== parseInt(cpf.substring(10, 11))) return false;
+            return true;
+        }
 
-      if (tipo === 'aleatoria' && chave.length < 8) {
-        mostrarModal("❌ Chave aleatória muito curta.", "error");
-        return;
-      }
-
-      if (agora.getHours() < 6 || agora.getHours() >= 23) {
-        mostrarModal("⏰ Fora do horário permitido (6h às 23h)", "error");
-        return;
-      }
-
-      const duplicada = transacoesRecentes.find(t =>
-        t.chave === chave &&
-        t.valor === valor &&
-        ((agora - new Date(t.data)) / 60000) < tempoRepeticaoMin
-      );
-
-      if (duplicada) {
-        mostrarModal("⚠️ Transação duplicada em menos de 2 minutos.", "error");
-        return;
-      }
-
-      if (valor > limiteAlerta) {
-        mostrarModal("🔒 Valor alto. Aguardando aprovação manual.", "waiting");
-        return;
-      }
-
-      transacoesRecentes.push({ chave, valor, descricao, data: agora });
-      localStorage.setItem('transacoesRecentes', JSON.stringify(transacoesRecentes));
-
-      mostrarModal("✅ Pix enviado com sucesso!", "success");
-      form.reset();
-    });
-  </script>
+        // Alerta se CPF for inválido ao tentar enviar
+        document.querySelector('form').addEventListener('submit', function (e) {
+            const chavePix = document.getElementById('chavePix').value.trim();
+            // Verifica se é CPF (apenas números e 11 dígitos)
+            const cpf = chavePix.replace(/[^\d]+/g, '');
+            if (cpf.length === 11 && !validarCPF(cpf)) {
+                alert('CPF inválido! Confira a chave Pix digitada.');
+                // O envio não é bloqueado, apenas alerta o usuário
+            }
+        });
+    </script>
 </body>
+
 </html>
