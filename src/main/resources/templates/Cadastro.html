@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Onebank</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f5f5f5;
+        }
+        
+        .bradesco-red {
+            background-color: #cc092f;
+        }
+        
+        .bradesco-dark-red {
+            background-color: #a80728;
+        }
+        
+        .bradesco-blue {
+            color: #0033a0;
+        }
+        
+        .bradesco-gradient {
+            background: linear-gradient(135deg, #cc092f 0%, #0033a0 100%);
+        }
+        
+        .input-error {
+            border-color: #cc092f;
+        }
+        
+        .error-message {
+            color: #cc092f;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+        
+        .success-message {
+            color: #28a745;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+        
+        .card-shadow {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-container {
+            width: 180px;
+            height: 60px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bradesco-red text-white py-4 px-6 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+           <div class="logo-container flex items-center">
+                <img src="Logo.jpeg" alt="Onebank" class="h-full">
+            </div>
+            <nav class="hidden md:flex space-x-6">
+                <a href="#" class="text-white hover:text-gray-200 font-semibold">Para você</a>
+                <a href="#" class="text-white hover:text-gray-200 font-semibold">Empresas</a>
+                <a href="#" class="text-white hover:text-gray-200 font-semibold">Ajuda</a>
+                <a href="#" class="text-white hover:text-gray-200 font-semibold">Sobre o Onebank
+                </a>
+            </nav>
+            <button class="md:hidden text-white">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center py-10 px-4">
+        <div class="w-full max-w-4xl">
+            <div class="bg-white rounded-lg card-shadow overflow-hidden">
+                <!-- Progress Bar -->
+                <div class="h-2 bradesco-gradient"></div>
+                
+                <div class="p-8">
+                    <div class="flex justify-between items-center mb-8">
+                        <h1 class="text-2xl font-bold bradesco-blue">Cadastre-se no Internet Banking</h1>
+                        <span class="text-sm text-gray-600">Passo 1 de 3</span>
+                    </div>
+                    
+                    <form id="registrationForm" method="post" action="/clienteNovo" class="space-y-6">
+                        <!-- Personal Data Section -->
+                        <div>
+                            <h2 class="text-lg font-semibold mb-4 bradesco-blue">Dados Pessoais</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">Nome Completo*</label>
+                                    <input type="text" id="fullName" name="nome" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                                    <div id="fullNameError" class="error-message hidden">Por favor, insira seu nome completo</div>
+                                </div>
+                                
+                                <div>
+                                    <label for="cpf" class="block text-sm font-medium text-gray-700 mb-1">CPF*</label>
+                                    <input type="text" id="cpf" name="cpf" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="000.000.000-00" required>
+                                    <div id="cpfError" class="error-message hidden">CPF inválido</div>
+                                </div>
+                                
+                                <div>
+                                    <label for="birthDate" class="block text-sm font-medium text-gray-700 mb-1">Data de Nascimento*</label>
+                                    <input type="date" id="birthDate" name="dataNascimento" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                                    <div id="birthDateError" class="error-message hidden">Data inválida</div>
+                                </div>
+                                
+                                <div>
+                                    <label for="endereco" class="block text-sm font-medium text-gray-700 mb-1">Endereço*</label>
+                                    <input type="text" id="endereco" name="endereco" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                                    <div id="motherNameError" class="error-message hidden">Por favor, insira o seu endereço</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Contact Data Section -->
+                        <div>
+                            <h2 class="text-lg font-semibold mb-4 bradesco-blue">Dados de Contato</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">E-mail*</label>
+                                    <input type="email" id="email" name="email" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                                    <div id="emailError" class="error-message hidden">E-mail inválido</div>
+                                </div>
+                                
+                                <div>
+                                    <label for="confirmEmail" class="block text-sm font-medium text-gray-700 mb-1">Confirme o E-mail*</label>
+                                    <input type="email" id="confirmEmail" name="confirmEmail" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                                    <div id="confirmEmailError" class="error-message hidden">Os e-mails não coincidem</div>
+                                </div>
+                                
+                                <div>
+                                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Celular*</label>
+                                    <input type="tel" id="phone" name="telefone" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="(00) 00000-0000" required>
+                                    <div id="phoneError" class="error-message hidden">Número inválido</div>
+                                </div>
+                                 <div>
+                                    <label for="chavePix" class="block text-sm font-medium text-gray-700 mb-1">Chave Pix*</label>
+                                    <input type="text" id="phone" name="chavePix" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="(00) 00000-0000" required>
+                                    <div id="chavePix" class="error-message hidden">chave inválida</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Account Data Section -->
+                        <div>
+                            <h2 class="text-lg font-semibold mb-4 bradesco-blue">Dados da Conta</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="accountType" class="block text-sm font-medium text-gray-700 mb-1">Tipo de Conta*</label>
+                                    <select id="accountType" name="accountType" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                                        <option value="" disabled selected>Selecione</option>
+                                        <option value="CORRENTE">Conta Corrente</option>
+                                        <option value="POUPANCA">Conta Poupança</option>
+                                    </select>
+                                    <div id="accountTypeError" class="error-message hidden">Selecione um tipo de conta</div>
+                                </div>
+                                
+                                <div>
+                                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Senha*</label>
+                                    <div class="relative">
+                                        <input type="password" id="password" name="senha" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                                        <button type="button" class="absolute right-3 top-2.5 text-gray-500" id="togglePassword">
+                                            <i class="far fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="text-xs text-gray-500 mt-1">Mínimo de 8 caracteres, incluindo letras e números</div>
+                                    <div id="passwordError" class="error-message hidden">Senha não atende aos requisitos</div>
+                                </div>
+                                
+                                <div>
+                                    <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Confirme a Senha*</label>
+                                    <div class="relative">
+                                        <input type="password" id="confirmPassword" name="confirmPassword" class="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500" required>
+                                        <button type="button" class="absolute right-3 top-2.5 text-gray-500" id="toggleConfirmPassword">
+                                            <i class="far fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div id="confirmPasswordError" class="error-message hidden">As senhas não coincidem</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Terms and Conditions -->
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input id="terms" name="terms" type="checkbox" class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded" required>
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label for="terms" class="font-medium text-gray-700">Li e aceito os <a href="#" class="bradesco-blue underline">Termos de Uso</a> e <a href="#" class="bradesco-blue underline">Política de Privacidade</a> do Onebank*</label>
+                                <div id="termsError" class="error-message hidden">Você precisa aceitar os termos</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Buttons -->
+                        <div class="flex flex-col sm:flex-row justify-between space-y-4 sm:space-y-0 sm:space-x-4">
+                            <button type="button" class="px-6 py-3 border border-gray-300 rounded-md text-gray-700 font-medium hover:bg-gray-50 transition-colors">
+                                <i class="fas fa-arrow-left mr-2"></i> Voltar
+                            </button>
+                            <button type="submit" class="px-6 py-3 bradesco-red text-white rounded-md font-medium hover:bradesco-dark-red transition-colors">
+                                Continuar <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Security Info -->
+            <div class="mt-6 text-center text-sm text-gray-600">
+                <p><i class="fas fa-lock mr-2"></i> Ambiente seguro. Seus dados estão protegidos.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 py-8 px-6">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                   <!-- <img src="https://banco.bradesco/assets/prime/img/logo-bradesco.png" alt="Banco Bradesco" class="h-10">
+                </div>-->
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-600 hover:text-blue-600">Termos de Uso</a>
+                    <a href="#" class="text-gray-600 hover:text-blue-600">Política de Privacidade</a>
+                    <a href="#" class="text-gray-600 hover:text-blue-600">Segurança</a>
+                    <a href="#" class="text-gray-600 hover:text-blue-600">Fale Conosco</a>
+                </div>
+            </div>
+            <div class="mt-6 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
+                <p>Onebank S.A. - CNPJ: 60.746.948/0001-12</p>
+                <p class="mt-2">© 2025 Onebank. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // CPF Mask
+    const cpfInput = document.getElementById('cpf');
+    cpfInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 3) value = value.substring(0, 3) + '.' + value.substring(3);
+        if (value.length > 7) value = value.substring(0, 7) + '.' + value.substring(7);
+        if (value.length > 11) value = value.substring(0, 11) + '-' + value.substring(11);
+        e.target.value = value.substring(0, 14);
+    });
+
+    // Phone Mask
+    const phoneInput = document.getElementById('phone');
+    phoneInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 0) value = '(' + value.substring(0, 2) + ') ' + value.substring(2);
+        if (value.length > 10) value = value.substring(0, 10) + '-' + value.substring(10);
+        e.target.value = value.substring(0, 15);
+    });
+
+    // Toggle Password Visibility
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+    togglePassword.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        togglePassword.innerHTML = type === 'password' ? '<i class="far fa-eye"></i>' : '<i class="far fa-eye-slash"></i>';
+    });
+
+    const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    toggleConfirmPassword.addEventListener('click', function() {
+        const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        confirmPasswordInput.setAttribute('type', type);
+        toggleConfirmPassword.innerHTML = type === 'password' ? '<i class="far fa-eye"></i>' : '<i class="far fa-eye-slash"></i>';
+    });
+
+    // Form Validation
+    const form = document.getElementById('registrationForm');
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        let isValid = true;
+
+        // Reset errors
+        document.querySelectorAll('.error-message').forEach(el => el.classList.add('hidden'));
+        document.querySelectorAll('input, select').forEach(el => el.classList.remove('input-error'));
+
+        // Validate Full Name
+        const fullName = document.getElementById('fullName');
+        if (!fullName.value.trim()) {
+            document.getElementById('fullNameError').classList.remove('hidden');
+            fullName.classList.add('input-error');
+            isValid = false;
+        }
+
+        // Validate CPF
+        const cpf = document.getElementById('cpf');
+        if (!cpf.value || cpf.value.replace(/\D/g, '').length !== 11) {
+            document.getElementById('cpfError').classList.remove('hidden');
+            cpf.classList.add('input-error');
+            isValid = false;
+        }
+
+        // Validate Birth Date
+        const birthDate = document.getElementById('birthDate');
+        if (!birthDate.value) {
+            document.getElementById('birthDateError').classList.remove('hidden');
+            birthDate.classList.add('input-error');
+            isValid = false;
+        }
+
+        // Validate Endereço
+        const endereco = document.getElementById('endereco');
+        if (!endereco.value.trim()) {
+            document.getElementById('motherNameError').classList.remove('hidden');
+            endereco.classList.add('input-error');
+            isValid = false;
+        }
+
+        // Validate Email
+        const email = document.getElementById('email');
+        const confirmEmail = document.getElementById('confirmEmail');
+        if (!email.value.includes('@')) {
+            document.getElementById('emailError').classList.remove('hidden');
+            email.classList.add('input-error');
+            isValid = false;
+        }
+        if (email.value !== confirmEmail.value) {
+            document.getElementById('confirmEmailError').classList.remove('hidden');
+            confirmEmail.classList.add('input-error');
+            isValid = false;
+        }
+
+        // Validate Phone
+        const phone = document.getElementById('phone');
+        if (phone.value.replace(/\D/g, '').length < 11) {
+            document.getElementById('phoneError').classList.remove('hidden');
+            phone.classList.add('input-error');
+            isValid = false;
+        }
+
+        // Validate Account Type
+        const accountType = document.getElementById('accountType');
+        if (!accountType.value) {
+            document.getElementById('accountTypeError').classList.remove('hidden');
+            accountType.classList.add('input-error');
+            isValid = false;
+        }
+
+        // Validate Password
+        const password = document.getElementById('password');
+        const confirmPassword = document.getElementById('confirmPassword');
+        const passwordValue = password.value;
+        if (passwordValue.length < 8 || !/\d/.test(passwordValue) || !/[a-zA-Z]/.test(passwordValue)) {
+            document.getElementById('passwordError').classList.remove('hidden');
+            password.classList.add('input-error');
+            isValid = false;
+        }
+        if (passwordValue !== confirmPassword.value) {
+            document.getElementById('confirmPasswordError').classList.remove('hidden');
+            confirmPassword.classList.add('input-error');
+            isValid = false;
+        }
+
+        // Validate Terms
+        const terms = document.getElementById('terms');
+        if (!terms.checked) {
+            document.getElementById('termsError').classList.remove('hidden');
+            terms.classList.add('input-error');
+            isValid = false;
+        }
+
+        if (isValid) {
+            form.submit();
+        }
+    });
+});
+</script>
+
+
+</body>
+</html>

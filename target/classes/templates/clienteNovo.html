@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cliente novo - Onebank</title>
+
+</head>
+
+<link rel="stylesheet" href="css/login.css">
+
+<body>
+    <div class="wrapper">
+        <div class="title-text">
+            <div class="title login">Novo cliente</div>
+            <div class="title signup">Nova conta</div>
+        </div>
+        <div class="form-container">
+            <div class="slide-controls">
+                <input type="radio" name="slide" id="login" checked>
+                <input type="radio" name="slide" id="signup">
+                <label for="login" class="slide login">Novo Cliente</label>
+                <label for="signup" class="slide signup">Nova Conta</label>
+                <div class="slider-tab"></div>
+            </div>
+            <div class="form-inner">
+
+
+                <form action="/clienteNovo" class="login" method="POST">
+
+                    <h3>Dados do cliente</h3>
+                    <div class="field">
+                        <input type="text" name="nome" placeholder="Nome" required>
+                    </div>
+                    <div class="field">
+                        <input type="number" name="cpf" placeholder="Cpf" required>
+                    </div>
+                    <div class="field">
+                        <input type="email" name="email" placeholder="Email" required>
+                    </div>
+                    <div class="field">
+                        <input type="number" name="telefone" placeholder="Telefone" required>
+                    </div>
+                    <div class="field">
+                        <input type="date" name="dataNascimento" placeholder="Data de nascimento" required>
+                    </div>
+                    <div class="field">
+                        <input type="text" name="endereco" placeholder="Endereco" required>
+                    </div>
+                    <div class="field">
+                        <input type="password" name="senha" placeholder="Senha" required>
+                    </div>
+                    <div class="select-field">
+                        <select type="text" name="tipo_conta" placeholder="Tipo da conta" required>´
+                            <option value="CORRENTE">Corrente</option>
+                            <option value="POUPANCA">Poupança</option>
+                        </select>
+                    </div>
+                    <div class="pass-link"><a href="#">Forgot password?</a></div>
+                    <p style="color: red;"><span th:text="${erro}"></span></p>
+                    <div class="field btn">
+                        <div class="btn-layer"></div>
+                        <input type="submit" value="Login">
+                    </div>
+                    <div>Já é nosso cliente?<a href="/">Entrar</a></div>
+                </form>
+
+                <form action="/contaNova" class="signup" method="POST">
+
+
+                    <div class="field">
+                        <input type="text" name="cpf" placeholder="Insira seu cpf" required>
+                    </div>
+                    <div class="field">
+                        <input type="password" name="senha" placeholder="Crie uma senha" required>
+                    </div>
+                    <div class="field">
+                        <input type="password" name="confirmeSenha" placeholder="Confirme sua senha" required>
+                    </div>
+
+                    <div class="select-field">
+                        <select type="text" name="tipo_conta" placeholder="Tipo da conta" required>´
+                            <option value="CORRENTE">Corrente</option>
+                            <option value="POUPANCA">Poupança</option>
+                        </select>
+                    </div>
+                    <p style="color: red;"><span th:text="${erro}"></span></p>
+
+                    <div class="field btn">
+                        <div class="btn-layer"></div>
+                        <input type="submit" value="Signup">
+                    </div>
+                </form>
+
+</body>
+<script src="js/script.js"></script>
+
+</html>
