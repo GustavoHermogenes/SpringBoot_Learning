@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bradesco Internet Banking - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .bradesco-red {
+            background-color: #cc092f;
+        }
+
+        .bradesco-dark-red {
+            background-color: #a80729;
+        }
+
+        .bradesco-blue {
+            color: #0033a0;
+        }
+
+        .input-focus:focus {
+            border-color: #0033a0;
+            box-shadow: 0 0 0 1px #0033a0;
+        }
+
+        .btn-login {
+            background-color: #cc092f;
+            transition: background-color 0.3s;
+        }
+
+        .btn-login:hover {
+            background-color: #a80729;
+        }
+
+        .security-tip {
+            border-left: 4px solid #cc092f;
+        }
+
+        .logo-container {
+            height: 60px;
+        }
+
+        @media (max-width: 640px) {
+            .login-container {
+                width: 90%;
+                margin: 0 auto;
+            }
+        }
+
+        .btn-open-account {
+            display: inline-block;
+            background-color: white;
+            color: #0033a0;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .btn-open-account:hover,
+        .btn-open-account:focus {
+            background-color: #f3f4f6;
+            color: #002080;
+            outline: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bradesco-red text-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="logo-container flex items-center mr-4">
+                    <img src="https://banco.bradesco/assets/prime/img/logo-bradesco.png" alt="Bradesco"
+                        class="h-full" />
+                </div>
+                <h1 class="text-xl font-bold hidden md:block">Internet Banking</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="text-sm hover:underline hidden sm:block">Ajuda</a>
+                <a href="#" class="text-sm hover:underline hidden sm:block">Segurança</a>
+                <a href="Cadastro.html" class="btn-open-account">Abra sua conta</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center py-8 px-4">
+        <div class="login-container bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-md">
+            <!-- Login Form -->
+            <div class="p-6">
+                <h2 class="text-2xl font-bold bradesco-blue mb-6">Acesse sua conta</h2>
+
+                <form id="loginForm" action="/login" class="space-y-4" method="post">
+                    <div>
+                        <label for="agencia" class="block text-sm font-medium text-gray-700 mb-1">Agência</label>
+                        <input type="text" th:value="${agencia}" id="agencia" name="agencia"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md input-focus" placeholder="0000"
+                            required />
+                    </div>
+
+                    <div>
+                        <label for="conta" class="block text-sm font-medium text-gray-700 mb-1">Conta</label>
+                        <input type="text" id="conta" th:value="${numero_conta}" name="conta_conta"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md input-focus"
+                            placeholder="00000-00" required />
+                    </div>
+
+                    <div>
+                        <label for="senha" class="block text-sm font-medium text-gray-700 mb-1">Senha</label>
+                        <div class="relative">
+                            <input type="password" id="senha" name="senha"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md input-focus pr-10"
+                                placeholder="Digite sua senha" required />
+                            <button type="button" id="togglePassword" class="absolute right-3 top-2 text-gray-500">
+                                <i class="far fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="lembrar" name="lembrar"
+                                class="h-4 w-4 text-bradesco-red rounded" />
+                            <label for="lembrar" class="ml-2 block text-sm text-gray-700">Lembrar agência e
+                                conta</label>
+                        </div>
+                        <a href="#" class="text-sm bradesco-blue hover:underline">Esqueci minha senha</a>
+                    </div>
+
+                    <p th:text="${erro}"></p>
+
+
+                    <button type="submit" class="w-full btn-login text-white py-2 px-4 rounded-md font-semibold">
+                        Acessar
+                    </button>
+                </form>
+
+                <div class="mt-6 pt-6 border-t border-gray-200">
+                    <h3 class="text-sm font-semibold bradesco-blue mb-2">Primeiro acesso?</h3>
+                    <p class="text-sm text-gray-600 mb-3">
+                        Se é sua primeira vez acessando o Internet Banking, você precisa se cadastrar.
+                    </p>
+                    <a href="/Cadastro" class="inline-block bradesco-blue text-sm font-semibold hover:underline">
+                        <i class="fas fa-arrow-right mr-1"></i> Cadastre-se agora
+                    </a>
+                </div>
+            </div>
+
+            <!-- Security Tips -->
+            <div class="bg-gray-50 p-6 security-tip">
+                <h3 class="text-sm font-semibold bradesco-blue mb-2 flex items-center">
+                    <i class="fas fa-shield-alt mr-2"></i> Dicas de segurança
+                </h3>
+                <ul class="text-xs text-gray-600 space-y-1">
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                        <span>Nunca revele sua senha a terceiros</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                        <span>Verifique se o site possui "https://" e o cadeado de segurança</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                        <span>Evite acessar seu Internet Banking em computadores públicos</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 text-gray-600 text-xs py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-2 md:mb-0">
+                    <p>Banco Bradesco S.A. - CNPJ: 60.746.948/0001-12</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:underline">Termos de uso</a>
+                    <a href="#" class="hover:underline">Política de privacidade</a>
+                    <a href="#" class="hover:underline">Segurança</a>
+                </div>
+            </div>
+            <div class="mt-2 text-center md:text-left">
+                <p>© 2023 Banco Bradesco. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Toggle password visibility
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('senha');
+
+            togglePassword.addEventListener('click', function () {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                this.innerHTML =
+                    type === 'password' ? '<i class="far fa-eye"></i>' : '<i class="far fa-eye-slash"></i>';
+            });
+
+            // Formatação automática da conta enquanto digita (mantém hífen visual)
+            const contaInput = document.getElementById('conta');
+
+            contaInput.addEventListener('input', function (e) {
+                let value = e.target.value.replace(/\D/g, ''); // remove tudo que não é número
+
+                if (value.length > 5) {
+                    value = value.substring(0, 5) + '-' + value.substring(5, 7);
+                }
+
+                e.target.value = value;
+            });
+
+            // Envio do form via Fetch
+            const loginForm = document.getElementById('loginForm');
+
+            loginForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const agencia = document.getElementById('agencia').value;
+                const numero_conta = document.getElementById('conta').value.replace(/\D/g, ''); // remove traço e outros
+                const senha = document.getElementById('senha').value;
+
+                const submitButton = loginForm.querySelector('button[type="submit"]');
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Acessando...';
+                submitButton.disabled = true;
+
+                fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `agencia=${encodeURIComponent(agencia)}&numero_conta=${encodeURIComponent(numero_conta)}&senha=${encodeURIComponent(senha)}`
+                })
+                    .then(response => {
+                        if (response.redirected) {
+                            window.location.href = response.url;
+                        } else {
+                            return response.text();
+                        }
+                    })
+                    .then(data => {
+                        document.open();
+                        document.write(data);
+                        document.close();
+                    })
+                    .catch(error => {
+                        console.error('Erro ao realizar login:', error);
+                    })
+                    .finally(() => {
+                        submitButton.innerHTML = 'Acessar';
+                        submitButton.disabled = false;
+                    });
+            });
+        });
+    </script>
+
+</body>
+
+</html>
