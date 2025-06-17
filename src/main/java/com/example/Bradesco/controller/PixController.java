@@ -2,6 +2,7 @@ package com.example.Bradesco.controller;
 
 import java.math.BigDecimal;
 import java.time.LocalDate; // Importação correta
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,8 @@ import com.example.Bradesco.repository.TransacaoRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @Controller
 public class PixController {
@@ -24,11 +27,18 @@ public class PixController {
     @Autowired
     private TransacaoRepository transacaoRepository;
 
+    @GetMapping("/Pix")
+    public String mostrarPaginaPix() {
+        return "PixPg";
+    }
+
+
     @PostMapping("/pix")
     public String realizarPix(
             @RequestParam BigDecimal valor,
             @RequestParam String chavePix,
             @RequestParam(required = false) String descricao,
+            @RequestParam(required = false) String confirmado,
             HttpSession session,
             Model model) {
 
@@ -58,10 +68,36 @@ public class PixController {
             return "PixPg";
         }
 
+
+        // Conte quantas transações já foram feitas para este destinatário
+       LocalDateTime limite = LocalDateTime.now().minusHours(24);
+
+        int transferenciasUltimas24h = transacaoRepository
+            .countByContaOrigemIdContaAndContaDestinoIdContaAndDataHoraAfter(
+                contaOrigem.getIdConta(), contaDestino.getIdConta(), limite);
+
+        if (transferenciasUltimas24h >= 3 && confirmado == null) {
+            model.addAttribute("erro", "Limite de 3 transferências para este destinatário em 24h atingido. Pix bloqueado.");
+            return "PixPg";
+        }
+
+        //verifica se a conta pode ser uma bet
+
+        int recebimentosMesmoValor = transacaoRepository
+            .countByContaDestinoIdContaAndValorAndDataHoraAfter(
+                contaDestino.getIdConta(), valor.doubleValue(), limite);        
+
+        if (recebimentosMesmoValor > 10 && confirmado == null) {
+            model.addAttribute("aviso", "Atenção: o destinatário recebeu mais de 10 vezes o mesmo valor nas últimas 24h. Pode ser atividade suspeita (ex: casa de apostas).");
+        }
+
+
         // Conta suspeita (criada há menos de 7 dias)
         boolean contaSuspeita = contaDestino.getData_abertura().isAfter(LocalDate.now().minusDays(7));
-        if (contaSuspeita) {
+        if (contaSuspeita && confirmado == null) {
             model.addAttribute("aviso", "Atenção: a conta de destino foi criada recentemente e pode ser suspeita.");
+            model.addAttribute("dadosPix",new DadosPix(valor, chavePix, descricao));
+            return "PixPg";
         }
 
         // Realiza transferência
@@ -72,7 +108,7 @@ public class PixController {
 
         Transacao transacao = new Transacao();
         transacao.setValor(valor.doubleValue());
-        transacao.setDataHora(java.time.LocalDateTime.now().toString());
+        transacao.setDataHora(LocalDateTime.now());
         transacao.setTipo("PIX");
         transacao.setContaOrigem(contaOrigem);
         transacao.setContaDestino(contaDestino);
@@ -87,3 +123,5 @@ public class PixController {
         return "sucessoPix";
     }
 }
+
+

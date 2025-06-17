@@ -17,16 +17,18 @@
         <div class="gradient-bg text-white p-2 rounded-lg">
           <i class="fas fa-university text-2xl"></i>
         </div>
+
+        <i class="fas fa-university text-2xl"></i>
         <h1 class="text-xl font-bold text-gray-800">Onebank</h1>
       </div>
 
       <nav class="hidden md:flex space-x-6">
-        <a href="#" class="text-blue-600 font-medium">Início</a>
-        <a href="#" class="text-gray-600 hover:text-blue-600">Conta</a>
-        <a href="#" class="text-gray-600 hover:text-blue-600">Cartões</a>
-        <a href="#" class="text-gray-600 hover:text-blue-600">Investimentos</a>
-        <a href="#" class="text-gray-600 hover:text-blue-600">Empréstimos</a>
-        <a href="#" class="text-gray-600 hover:text-blue-600">Ajuda</a>
+        <a href="#" class="text-red-500 font-medium">Início</a>
+        <a href="#" class="text-gray-600 hover:text-red-600">Conta</a>
+        <a href="#" class="text-gray-600 hover:text-red-600">Cartões</a>
+        <a href="#" class="text-gray-600 hover:text-red-600">Investimentos</a>
+        <a href="#" class="text-gray-600 hover:text-red-600">Empréstimos</a>
+        <a href="#" class="text-gray-600 hover:text-red-600">Ajuda</a>
       </nav>
 
       <div class="flex items-center space-x-4">
@@ -57,9 +59,9 @@
             <p class="text-gray-600">Aqui está um resumo da sua conta</p>
           </div>
           <button
-            class="mt-4 md:mt-0 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition">
+            class="mt-4 md:mt-0 bg-red-600 hover:bg-red-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition">
             <i class="fas fa-plus"></i>
-            <span>Nova transferência</span>
+            <a href="/Pix">Nova transferência</a>
           </button>
         </div>
       </div>
@@ -71,19 +73,25 @@
         <div class="bg-white rounded-xl shadow-sm p-6 card-hover transition cursor-pointer">
           <div class="flex justify-between items-start mb-4">
             <div>
-              <h4 class="font-medium text-gray-700">Conta <span th:text="${conta.tipo_conta}"></span></h4>
+              <h4 class="font-medium text-gray-700">Conta <span
+                  th:text="${conta.tipo_conta.name().toLowerCase()}"></span></h4>
               <p class="text-sm text-gray-500"><span th:text="${conta.agencia}"></span>-<span
                   th:text="${conta.numero_conta}"></span></p>
             </div>
-            <i class="fas fa-wallet text-blue-500 text-xl"></i>
+            <i class="fas fa-wallet text-red-600 text-xl"></i>
           </div>
-          <div class="mb-4">
+          <div class="mb-4" th:if="${conta.saldo < 0 }">
+            <p class="text-2xl font-bold text-red-500"><span
+                th:text="' - R$ ' + ${#numbers.formatDecimal(conta.saldo, 1, 'POINT', 2, 'COMMA')}"></span></p>
+          </div>
+
+          <div class="mb-4" th:if="${conta.saldo >= 0 }">
             <p class="text-2xl font-bold text-gray-800"><span
                 th:text="'R$ ' + ${#numbers.formatDecimal(conta.saldo, 1, 'POINT', 2, 'COMMA')}"></span></p>
           </div>
           <div class="flex space-x-3">
-            <button class="text-blue-600 text-sm font-medium">Detalhes</button>
-            <button class="text-blue-600 text-sm font-medium">Transferir</button>
+            <button class="text-red-600 text-sm font-medium">Detalhes</button>
+            <button class="text-red-600 text-sm font-medium">Transferir</button>
           </div>
         </div>
 
@@ -99,8 +107,8 @@
             <p class="text-2xl font-bold text-gray-800">R$ -350,00</p>
           </div>
           <div class="flex space-x-3">
-            <button class="text-blue-600 text-sm font-medium">Detalhes</button>
-            <button class="text-blue-600 text-sm font-medium">Resgatar</button>
+            <button class="text-red-600 text-sm font-medium">Detalhes</button>
+            <button class="text-red-600 text-sm font-medium">Resgatar</button>
           </div>
         </div>
 
@@ -117,8 +125,8 @@
             <p class="text-2xl font-bold text-gray-800">R$ 24.150,30</p>
           </div>
           <div class="flex space-x-3">
-            <button class="text-blue-600 text-sm font-medium">Detalhes</button>
-            <button class="text-blue-600 text-sm font-medium">Investir</button>
+            <button class="text-red-600 text-sm font-medium">Detalhes</button>
+            <button class="text-red-600 text-sm font-medium">Investir</button>
           </div>
         </div>
       </div>
@@ -128,7 +136,7 @@
     <section class="mb-8">
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-lg font-semibold text-gray-800">Seus cartões</h3>
-        <button class="text-blue-600 text-sm font-medium">Ver todos</button>
+        <button class="text-gray-800 text-sm font-medium">Ver todos</button>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -142,9 +150,9 @@
           <div class="flex justify-between items-start mb-8">
             <div>
               <p class="text-sm opacity-80">limite: R$<span th:text="${cartao.limite}"></span></p>
-              <h4 class="font-bold text-xl">Onebank Digital</h4>
+              <h4 class="font-bold text-xl ">Onebank Digital</h4>
             </div>
-            <i class="fas fa-sim-card text-3xl text-blue-400"></i>
+            <i class="fas fa-sim-card text-3xl text-red-600"></i>
           </div>
 
           <div class="mb-4">
@@ -202,12 +210,12 @@
     <section class="mb-8">
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-lg font-semibold text-gray-800">Área Pix</h3>
-        <button class="text-blue-600 text-sm font-medium">Ver histórico</button>
+        <button class="text-gray-800 text-sm font-medium">Ver histórico</button>
       </div>
 
       <div class="bg-white rounded-xl shadow-sm p-6">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 transition cursor-pointer">
+          <a class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 transition cursor-pointer" href="/Pix">
             <div class="flex items-center space-x-3">
               <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
                 <i class="fas fa-paper-plane text-blue-600"></i>
@@ -217,7 +225,7 @@
                 <p class="text-sm text-gray-500">Transferência imediata</p>
               </div>
             </div>
-          </div>
+          </a>
 
           <div class="p-4 border border-gray-200 rounded-lg hover:border-blue-500 transition cursor-pointer">
             <div class="flex items-center space-x-3">
@@ -248,7 +256,7 @@
           <div class="w-40 h-40 bg-gray-100 rounded-lg flex items-center justify-center mb-4">
             <i class="fas fa-qrcode text-4xl text-gray-400"></i>
           </div>
-          <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
+          <button class="bg-red-600 hover:bg-gray-800 text-white px-6 py-2 rounded-lg">
             Mostrar QR Code
           </button>
           <p class="text-sm text-gray-500 mt-2">Toque para exibir seu QR Code Pix</p>
@@ -257,60 +265,61 @@
     </section>
 
     <section class="mb-8">
-  <div class="flex justify-between items-center mb-4">
-    <h3 class="text-lg font-semibold text-gray-800">Transações recentes</h3>
-    <button class="text-blue-600 text-sm font-medium">Ver histórico completo</button>
-  </div>
-  <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-    <div th:each="transacao : ${historicoPix}"
-      class="p-4 border-b border-gray-100 flex justify-between items-center transaction-item cursor-pointer">
-      <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-full"
-          th:classappend="${transacao.tipo == 'PIX'} ? 'bg-purple-100' : (${transacao.tipo == 'SAQUE'} ? 'bg-red-100' : 'bg-blue-100')">
-          <i class="fas"
-            th:classappend="${transacao.tipo == 'PIX'} ? 'fa-mobile-alt text-purple-500' : (${transacao.tipo == 'SAQUE'} ? 'fa-arrow-up text-red-500' : 'fa-exchange-alt text-blue-500')"></i>
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-lg font-semibold text-gray-800">Transações recentes</h3>
+        <button class="text-gray-800 text-sm font-medium">Ver histórico completo</button>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div th:each="transacao : ${historicoPix}"
+          class="p-4 border-b border-gray-100 flex justify-between items-center transaction-item cursor-pointer">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-full"
+              th:classappend="${transacao.tipo == 'PIX'} ? 'bg-red-100' : (${transacao.tipo == 'SAQUE'} ? 'bg-red-100' : 'bg-blue-100')">
+              <i class="fas"
+                th:classappend="${transacao.tipo == 'PIX'} ? 'fa-mobile-alt text-red-600' : (${transacao.tipo == 'SAQUE'} ? 'fa-arrow-up text-red-500' : 'fa-exchange-alt text-blue-500')"></i>
+            </div>
+            <div>
+              <p class="font-medium text-gray-800" th:text="${transacao.tipo.toLowerCase()}">Tipo</p>
+              <p class="text-xs text-gray-500" th:text="${#temporals.format(transacao.dataHora, 'HH:mm:ss dd/MM/yy')}">
+              </p>
+            </div>
+          </div>
+          <div class="text-right">
+            <p class="font-medium"
+              th:classappend="${transacao.contaDestino.idConta == conta.idConta} ? 'text-green-500' : 'text-red-500'"
+              th:text="${transacao.contaDestino.idConta == conta.idConta} ? '+ R$ ' + ${#numbers.formatDecimal(transacao.valor, 1, 'POINT', 2, 'COMMA')} : '- R$ ' + ${#numbers.formatDecimal(transacao.valor, 1, 'POINT', 2, 'COMMA')}">
+              Valor
+            </p>
+            <p class="text-xs text-gray-500"
+              th:text="${transacao.contaDestino != null && transacao.contaDestino.cliente != null ? transacao.contaDestino.cliente.nome : ''}">
+              Destinatário
+            </p>
+          </div>
         </div>
-        <div>
-          <p class="font-medium text-gray-800" th:text="${transacao.tipo}">Tipo</p>
-          <p class="text-xs text-gray-500" th:text="${transacao.dataHora}">Data e hora</p>
+        <!-- Caso não haja transações -->
+        <div th:if="${#lists.isEmpty(historicoPix)}" class="p-4 text-center text-gray-400">
+          Nenhuma transação encontrada.
         </div>
       </div>
-      <div class="text-right">
-        <p class="font-medium"
-          th:classappend="${transacao.contaDestino.id == conta.id} ? 'text-green-500' : 'text-red-500'"
-          th:text="${transacao.contaDestino.id == conta.id} ? '+ R$ ' + ${#numbers.formatDecimal(transacao.valor, 1, 'POINT', 2, 'COMMA')} : '- R$ ' + ${#numbers.formatDecimal(transacao.valor, 1, 'POINT', 2, 'COMMA')}">
-          Valor
-        </p>
-        <p class="text-xs text-gray-500"
-          th:text="${transacao.contaDestino != null && transacao.contaDestino.cliente != null ? transacao.contaDestino.cliente.nome : ''}">
-          Destinatário
-        </p>
-      </div>
-    </div>
-    <!-- Caso não haja transações -->
-    <div th:if="${#lists.isEmpty(historicoPix)}" class="p-4 text-center text-gray-400">
-      Nenhuma transação encontrada.
-    </div>
-  </div>
-</section>
+    </section>
 
     <!-- Offers Section -->
     <section class="mb-8">
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-lg font-semibold text-gray-800">Ofertas para você</h3>
-        <button class="text-blue-600 text-sm font-medium">Ver todas</button>
+        <button class="text-gray-800 text-sm font-medium">Ver todas</button>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <!-- Offer 1 -->
         <div
-          class="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl p-6 shadow-lg relative overflow-hidden">
+          class="bg-gradient-to-r from-blue-500 to-red-600 text-white rounded-xl p-6 shadow-lg relative overflow-hidden">
           <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-10 -mt-10"></div>
 
           <div class="relative z-10">
             <h4 class="font-bold text-xl mb-2">Empréstimo pessoal</h4>
             <p class="text-sm opacity-90 mb-4">Taxa especial de 1,29% ao mês</p>
-            <button class="bg-white text-blue-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-50 transition">
+            <button class="bg-white text-red-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-50 transition">
               Simular agora
             </button>
           </div>
@@ -347,20 +356,20 @@
         <div>
           <h4 class="font-bold text-gray-800 mb-4">Produtos</h4>
           <ul class="space-y-2">
-            <li><a href="#" class="text-gray-600 text-sm hover:text-blue-600">Conta digital</a></li>
-            <li><a href="#" class="text-gray-600 text-sm hover:text-blue-600">Cartões</a></li>
-            <li><a href="#" class="text-gray-600 text-sm hover:text-blue-600">Investimentos</a></li>
-            <li><a href="#" class="text-gray-600 text-sm hover:text-blue-600">Empréstimos</a></li>
+            <li><a href="#" class="text-gray-600 text-sm hover:text-red-600">Conta digital</a></li>
+            <li><a href="#" class="text-gray-600 text-sm hover:text-red-600">Cartões</a></li>
+            <li><a href="#" class="text-gray-600 text-sm hover:text-red-600">Investimentos</a></li>
+            <li><a href="#" class="text-gray-600 text-sm hover:text-red-600">Empréstimos</a></li>
           </ul>
         </div>
 
         <div>
           <h4 class="font-bold text-gray-800 mb-4">Ajuda</h4>
           <ul class="space-y-2">
-            <li><a href="#" class="text-gray-600 text-sm hover:text-blue-600">Central de ajuda</a></li>
-            <li><a href="#" class="text-gray-600 text-sm hover:text-blue-600">Segurança</a></li>
-            <li><a href="#" class="text-gray-600 text-sm hover:text-blue-600">Perguntas frequentes</a></li>
-            <li><a href="#" class="text-gray-600 text-sm hover:text-blue-600">Fale conosco</a></li>
+            <li><a href="#" class="text-gray-600 text-sm hover:text-red-600">Central de ajuda</a></li>
+            <li><a href="#" class="text-gray-600 text-sm hover:text-red-600">Segurança</a></li>
+            <li><a href="#" class="text-gray-600 text-sm hover:text-red-600">Perguntas frequentes</a></li>
+            <li><a href="#" class="text-gray-600 text-sm hover:text-red-600">Fale conosco</a></li>
           </ul>
         </div>
 
@@ -377,10 +386,10 @@
             </button>
           </div>
           <div class="flex space-x-4">
-            <a href="#" class="text-gray-600 hover:text-blue-600"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" class="text-gray-600 hover:text-blue-600"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="text-gray-600 hover:text-blue-600"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="text-gray-600 hover:text-blue-600"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="text-gray-600 hover:text-red-600"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-gray-600 hover:text-red-600"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-gray-600 hover:text-red-600"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-gray-600 hover:text-red-600"><i class="fab fa-linkedin-in"></i></a>
           </div>
         </div>
       </div>
@@ -388,9 +397,9 @@
       <div class="border-t border-gray-200 pt-6 flex flex-col md:flex-row justify-between items-center">
         <p class="text-gray-500 text-sm mb-4 md:mb-0">© 2025 Onebank. Todos os direitos reservados.</p>
         <div class="flex space-x-4">
-          <a href="#" class="text-gray-500 text-sm hover:text-blue-600">Termos de uso</a>
-          <a href="#" class="text-gray-500 text-sm hover:text-blue-600">Política de privacidade</a>
-          <a href="#" class="text-gray-500 text-sm hover:text-blue-600">Cookies</a>
+          <a href="#" class="text-gray-500 text-sm hover:text-red-600">Termos de uso</a>
+          <a href="#" class="text-gray-500 text-sm hover:text-red-600">Política de privacidade</a>
+          <a href="#" class="text-gray-500 text-sm hover:text-red-600">Cookies</a>
         </div>
       </div>
     </div>

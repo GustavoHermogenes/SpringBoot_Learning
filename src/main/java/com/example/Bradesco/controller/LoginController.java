@@ -60,7 +60,7 @@ public String realizarLogin(@RequestParam Integer agencia, @RequestParam Integer
             cartoes = new ArrayList<>();
         }
         model.addAttribute("cartoes", cartoes); // Use a lista inicializada!
-        return "/HomePg";
+        return "redirect:/HomePg";
     } else {
         model.addAttribute("erro", "Dados da conta inválidos");
         return "/Login";

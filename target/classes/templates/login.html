@@ -82,9 +82,7 @@
     <header class="bradesco-red text-white shadow-md">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center">
-                <div class="logo-container flex items-center mr-4">
-                    <img src="/resources/static/image/Logo.jpeg" alt="Onebank">
-                </div>
+                <i class="fas fa-university text-2xl"></i>
                 <h1 class="text-xl font-bold hidden md:block">Onebank</h1>
             </div>
             <div class="flex items-center space-x-4">
@@ -112,7 +110,7 @@
 
                     <div>
                         <label for="conta" class="block text-sm font-medium text-gray-700 mb-1">Conta</label>
-                        <input type="text" id="conta" th:value="${numero_conta}" name="conta_conta"
+                        <input type="text" id="conta" th:value="${numero_conta}" name="numero_conta"
                             class="w-full px-3 py-2 border border-gray-300 rounded-md input-focus"
                             placeholder="00000-00" required />
                     </div>
@@ -226,44 +224,33 @@
             });
 
             // Envio do form via Fetch
-            const loginForm = document.getElementById('loginForm');
+            document.getElementById('loginForm').addEventListener('submit', function (event) {
+                event.preventDefault();
 
-            loginForm.addEventListener('submit', function (e) {
-                e.preventDefault();
+                const form = event.target;
+                const formData = new FormData(form);
+                formData.set('numero_conta', formData.get('numero_conta').replace('-', ''));
 
-                const agencia = document.getElementById('agencia').value;
-                const numero_conta = document.getElementById('conta').value.replace(/\D/g, ''); // remove traço e outros
-                const senha = document.getElementById('senha').value;
-
-                const submitButton = loginForm.querySelector('button[type="submit"]');
-                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Acessando...';
-                submitButton.disabled = true;
-
-                fetch('/login', {
+                fetch(form.action, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: `agencia=${encodeURIComponent(agencia)}&numero_conta=${encodeURIComponent(numero_conta)}&senha=${encodeURIComponent(senha)}`
+                    body: new URLSearchParams(formData)
                 })
                     .then(response => {
+                        // Se o backend retornar um redirect, siga para a URL de destino
                         if (response.redirected) {
                             window.location.href = response.url;
                         } else {
-                            return response.text();
+                            // Se não houver redirect, exiba o HTML normalmente (ex: erro de login)
+                            return response.text().then(html => {
+                                document.open();
+                                document.write(html);
+                                document.close();
+                            });
                         }
                     })
-                    .then(data => {
-                        document.open();
-                        document.write(data);
-                        document.close();
-                    })
                     .catch(error => {
-                        console.error('Erro ao realizar login:', error);
-                    })
-                    .finally(() => {
-                        submitButton.innerHTML = 'HomePg';
-                        submitButton.disabled = false;
+                        alert('Erro ao tentar logar!');
+                        console.error(error);
                     });
             });
         });

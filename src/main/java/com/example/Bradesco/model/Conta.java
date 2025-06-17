@@ -23,7 +23,7 @@ public class Conta {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_conta;
+    private Long idConta;
 
     @Column(length = 8)
     private Integer numero_conta;
@@ -65,8 +65,8 @@ public class Conta {
     // Inicio dos métodos getters
 
     
-    public Long getId_conta() {
-        return id_conta;
+    public Long getIdConta() {
+        return idConta;
     }
 
     public Integer getNumero_conta() {

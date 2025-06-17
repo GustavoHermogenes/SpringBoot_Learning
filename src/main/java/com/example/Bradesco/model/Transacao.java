@@ -1,5 +1,7 @@
 package com.example.Bradesco.model;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -18,7 +20,7 @@ public class Transacao {
     private int id;
 
     private double valor;
-    private String dataHora;
+    private LocalDateTime dataHora;
     private String tipo; // ex: "PIX", "SAQUE"
 @ManyToOne
 @JoinColumn(name = "conta_origem_id_conta")
@@ -45,11 +47,11 @@ private Conta contaDestino;
         this.valor = valor;
     }
 
-    public String getDataHora() {
+    public LocalDateTime getDataHora() {
         return dataHora;
     }
 
-    public void setDataHora(String dataHora) {
+    public void setDataHora(LocalDateTime dataHora) {
         this.dataHora = dataHora;
     }
 

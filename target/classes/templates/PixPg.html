@@ -2,579 +2,647 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>PIX - Banco Onebank</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <style>
-        :root {
-            --bradesco-red: #cc092f;
-            --bradesco-dark-blue: #1a2e55;
-            --bradesco-light-blue: #e6f0ff;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PIX - Banco Onebank</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --bradesco-red: #cc092f;
+      --bradesco-dark-blue: #1a2e55;
+      --bradesco-light-blue: #e6f0ff;
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f7fa;
-        }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+    }
 
-        .header {
-            background: linear-gradient(135deg, var(--bradesco-dark-blue) 0%, var(--bradesco-red) 100%);
-        }
+    .header {
+      background: linear-gradient(135deg, var(--bradesco-dark-blue) 0%, var(--bradesco-red) 100%);
+    }
 
-        .btn-primary {
-            background-color: var(--bradesco-red);
-            color: white;
-        }
+    .btn-primary {
+      background-color: var(--bradesco-red);
+      color: white;
+    }
 
-        .btn-primary:hover {
-            background-color: #a80726;
-        }
+    .btn-primary:hover {
+      background-color: #a80726;
+    }
 
-        .btn-secondary {
-            background-color: var(--bradesco-dark-blue);
-            color: white;
-        }
+    .btn-secondary {
+      background-color: var(--bradesco-dark-blue);
+      color: white;
+    }
 
-        .btn-secondary:hover {
-            background-color: #142445;
-        }
+    .btn-secondary:hover {
+      background-color: #142445;
+    }
 
-        .pix-icon {
-            color: var(--bradesco-red);
-        }
+    .pix-icon {
+      color: var(--bradesco-red);
+    }
 
-        .card {
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
+    .card {
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
 
-        .input-field {
-            border: 1px solid #ddd;
-            transition: all 0.3s;
-        }
+    .input-field {
+      border: 1px solid #ddd;
+      transition: all 0.3s;
+    }
 
-        .input-field:focus {
-            border-color: var(--bradesco-red);
-            box-shadow: 0 0 0 2px rgba(204, 9, 47, 0.2);
-        }
+    .input-field:focus {
+      border-color: var(--bradesco-red);
+      box-shadow: 0 0 0 2px rgba(204, 9, 47, 0.2);
+    }
 
-        .tab-active {
-            border-bottom: 3px solid var(--bradesco-red);
-            color: var(--bradesco-red);
-            font-weight: 600;
-        }
+    .tab-active {
+      border-bottom: 3px solid var(--bradesco-red);
+      color: var(--bradesco-red);
+      font-weight: 600;
+    }
 
-        /* Mensagem de erro/sucesso — agora ocultas (usaremos popups) */
-        #mensagem-validacao {
-            display: none;
-        }
+    /* Mensagem de erro/sucesso — agora ocultas (usaremos popups) */
+    #mensagem-validacao {
+      display: none;
+    }
 
-        /* Popup modal */
-        .modal-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.4);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 999;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
+    /* Popup modal */
+    .modal-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
 
-        .modal-bg.show {
-            opacity: 1;
-            pointer-events: all;
-        }
+    .modal-bg.show {
+      opacity: 1;
+      pointer-events: all;
+    }
 
-        .modal {
-            background: white;
-            border-radius: 12px;
-            padding: 24px;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            position: relative;
-        }
+    .modal {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      position: relative;
+    }
 
-        .modal .title {
-            font-weight: 700;
-            margin-bottom: 12px;
-            font-size: 1.25rem;
-        }
+    .modal .title {
+      font-weight: 700;
+      margin-bottom: 12px;
+      font-size: 1.25rem;
+    }
 
-        .modal .msg-error {
-            color: #cc092f;
-        }
+    .modal .msg-error {
+      color: #cc092f;
+    }
 
-        .modal .msg-success {
-            color: #1a7f29;
-        }
+    .modal .msg-success {
+      color: #1a7f29;
+    }
 
-        .modal button.close-btn {
-            margin-top: 20px;
-            background-color: var(--bradesco-red);
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
-        }
+    .modal button.close-btn {
+      margin-top: 20px;
+      background-color: var(--bradesco-red);
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+    }
 
-        .modal button.close-btn:hover {
-            background-color: #a80726;
-        }
+    .modal button.close-btn:hover {
+      background-color: #a80726;
+    }
 
-        .msg-success {
-            color: #047857;
-            /* verde escuro */
-        }
+    .msg-success {
+      color: #047857;
+      /* verde escuro */
+    }
 
-        .msg-error {
-            color: #b91c1c;
-            /* vermelho escuro */
-        }
-    </style>
+    .msg-error {
+      color: #b91c1c;
+      /* vermelho escuro */
+    }
+  </style>
 </head>
 
 <body class="min-h-screen">
-    <div class="header text-white py-4 px-6 shadow-md">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <i class="fas fa-university text-2xl"></i>
-                <h1 class="text-xl font-bold">Onebank</h1>
-            </div>
-            <div class="flex items-center space-x-4">
-                <span class="text-sm">Olá,</span>!</span>
-                <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center">
-                    <i class="fas fa-user text-gray-700"></i>
-                </div>
-            </div>
+  <div class="header text-white py-4 px-6 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <i class="fas fa-university text-2xl"></i>
+        <h1 class="text-xl font-bold">Onebank</h1>
+      </div>
+      <div class="flex items-center space-x-4">
+        <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center">
+          <i class="fas fa-user text-gray-700"></i>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mx-auto px-4 py-8 max-w-3xl">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-bold text-gray-800">Enviar PIX</h2>
+      <div class="flex items-center space-x-2">
+        <i class="fas fa-question-circle text-gray-500"></i>
+        <span class="text-sm text-gray-600">Ajuda</span>
+      </div>
     </div>
 
-    <div class="container mx-auto px-4 py-8 max-w-3xl">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold text-gray-800">Enviar PIX</h2>
-            <div class="flex items-center space-x-2">
-                <i class="fas fa-question-circle text-gray-500"></i>
-                <span class="text-sm text-gray-600">Ajuda</span>
-            </div>
+    <div class="card bg-white p-6 mb-6">
+      <div class="flex border-b mb-6">
+        <button class="tab-active px-4 py-2 mr-4" data-tab="enviar">Enviar</button>
+      </div>
+
+      <div id="mensagem-validacao"></div>
+
+      <div th:if="${erro}" class="bg-red-100 text-red-700 p-3 rounded mb-4" th:text="${erro}"></div>
+      <div th:if="${aviso}" class="bg-yellow-100 text-yellow-800 p-3 rounded mb-4" th:text="${aviso}"></div>
+      <div th:if="${sucesso}" class="bg-green-100 text-green-800 p-3 rounded mb-4" th:text="${sucesso}"></div>
+
+
+
+      <form th:if="${aviso == null}" th:action="@{/pix}" method="post">
+        <div class="mb-6">
+          <label class="block text-gray-700 text-sm font-medium mb-2" for="valor">Valor</label>
+          <div class="relative">
+            <span class="absolute left-3 top-3 text-gray-500">R$</span>
+            <input id="valor" type="text" name="valor"
+              class="input-field w-full pl-8 py-3 px-4 rounded-lg focus:outline-none" placeholder="0,00" autocomplete="off" />
+          </div>
         </div>
 
-        <div class="card bg-white p-6 mb-6">
-            <div class="flex border-b mb-6">
-                <button class="tab-active px-4 py-2 mr-4" data-tab="enviar">Enviar</button>
-            </div>
-
-            <div id="mensagem-validacao"></div>
-
-            <div th:if="${erro}" class="bg-red-100 text-red-700 p-3 rounded mb-4" th:text="${erro}"></div>
-            <div th:if="${aviso}" class="bg-yellow-100 text-yellow-800 p-3 rounded mb-4" th:text="${aviso}"></div>
-            <div th:if="${sucesso}" class="bg-green-100 text-green-800 p-3 rounded mb-4" th:text="${sucesso}"></div>
-
-
-
-            <form th:action="@{/pix}" method="post">
-                <div class="mb-6">
-                    <label class="block text-gray-700 text-sm font-medium mb-2" for="valor">Valor</label>
-                    <div class="relative">
-                        <span class="absolute left-3 top-3 text-gray-500">R$</span>
-                        <input id="valor" type="text" name="valor"
-                            class="input-field w-full pl-8 py-3 px-4 rounded-lg focus:outline-none" placeholder="0,00"
-                            autocomplete="off" />
-                    </div>
-                </div>
-
-                <div class="mb-6">
-                    <label class="block text-gray-700 text-sm font-medium mb-2" for="destinatario">Para quem você quer
-                        enviar?</label>
-                    <div class="grid grid-cols-4 gap-2 mb-4">
-                        <button class="bg-gray-100 py-2 px-3 rounded-lg text-sm flex flex-col items-center"
-                            data-method="celular" type="button">
-                            <i class="fas fa-mobile-alt mb-1"></i>
-                            <span>Celular</span>
-                        </button>
-                        <button class="bg-gray-100 py-2 px-3 rounded-lg text-sm flex flex-col items-center"
-                            data-method="email" type="button">
-                            <i class="fas fa-envelope mb-1"></i>
-                            <span>E-mail</span>
-                        </button>
-                        <button class="bg-gray-100 py-2 px-3 rounded-lg text-sm flex flex-col items-center"
-                            data-method="cpfcnpj" type="button">
-                            <i class="fas fa-id-card mb-1"></i>
-                            <span>CPF/CNPJ</span>
-                        </button>
-                    </div>
-                    <input id="destinatario" type="text" name="chavePix"
-                        class="input-field w-full py-3 px-4 rounded-lg focus:outline-none"
-                        placeholder="Digite a chave PIX" autocomplete="off" maxlength="18" />
-                </div>
-
-                <div class="mb-6">
-                    <label class="block text-gray-700 text-sm font-medium mb-2" for="descricao">Descrição
-                        (opcional)</label>
-                    <input id="descricao" type="text" class="input-field w-full py-3 px-4 rounded-lg focus:outline-none"
-                        placeholder="Ex: Pagamento de serviços" autocomplete="off" />
-                </div>
-
-                <div class="flex items-center mb-6">
-                    <input id="salvar" type="checkbox" class="mr-2" />
-                    <label for="salvar" class="text-sm text-gray-600">Salvar como favorito</label>
-                </div>
-
-                <div class="bg-blue-50 p-4 rounded-lg mb-6 flex items-start">
-                    <i class="fas fa-info-circle text-blue-500 mt-1 mr-3"></i>
-                    <p class="text-sm text-gray-700">O valor máximo para envio via PIX é de R$ 5.000,00 por transação.
-                    </p>
-                </div>
-
-                <div class="flex justify-between">
-                    <button class="btn-secondary py-3 px-6 rounded-lg font-medium" id="btnCancelar" type="button">
-                        Cancelar
-                    </button>
-                    <button class="btn-primary py-3 px-6 rounded-lg font-medium flex items-center" type="submit">
-                        <i class="fas fa-paper-plane mr-2"></i>
-                        Enviar PIX
-                    </button>
-                </div>
-            </form>
+        <div class="mb-6">
+          <label class="block text-gray-700 text-sm font-medium mb-2" for="destinatario">Para quem você quer
+            enviar?</label>
+          <div class="grid grid-cols-4 gap-2 mb-4">
+            <button class="bg-gray-100 py-2 px-3 rounded-lg text-sm flex flex-col items-center" data-method="celular"
+              type="button">
+              <i class="fas fa-mobile-alt mb-1"></i>
+              <span>Celular</span>
+            </button>
+            <button class="bg-gray-100 py-2 px-3 rounded-lg text-sm flex flex-col items-center" data-method="email"
+              type="button">
+              <i class="fas fa-envelope mb-1"></i>
+              <span>E-mail</span>
+            </button>
+            <button class="bg-gray-100 py-2 px-3 rounded-lg text-sm flex flex-col items-center" data-method="cpfcnpj"
+              type="button">
+              <i class="fas fa-id-card mb-1"></i>
+              <span>CPF/CNPJ</span>
+            </button>
+          </div>
+          <input id="destinatario" type="text" name="chavePix"
+            class="input-field w-full py-3 px-4 rounded-lg focus:outline-none" placeholder="Digite a chave PIX"
+            autocomplete="off" maxlength="18"/>
         </div>
 
-        <div class="card bg-white p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                <i class="fas fa-bolt pix-icon mr-2"></i>
-                PIX é instantâneo e gratuito
-            </h3>
-            <div class="grid grid-cols-3 gap-4">
-                <div class="text-center">
-                    <div class="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-2">
-                        <i class="fas fa-clock text-red-500"></i>
-                    </div>
-                    <p class="text-sm text-gray-700">Disponível 24/7</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-2">
-                        <i class="fas fa-money-bill-wave text-blue-500"></i>
-                    </div>
-                    <p class="text-sm text-gray-700">Sem tarifas</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-2">
-                        <i class="fas fa-check text-green-500"></i>
-                    </div>
-                    <p class="text-sm text-gray-700">Transferência imediata</p>
-                </div>
-            </div>
+        <div class="mb-6">
+          <label class="block text-gray-700 text-sm font-medium mb-2" for="descricao">Descrição
+            (opcional)</label>
+          <input id="descricao" type="text" class="input-field w-full py-3 px-4 rounded-lg focus:outline-none"
+            placeholder="Ex: Pagamento de serviços" autocomplete="off"/>
         </div>
+
+        <div class="flex items-center mb-6">
+          <input id="salvar" type="checkbox" class="mr-2" />
+          <label for="salvar" class="text-sm text-gray-600">Salvar como favorito</label>
+        </div>
+
+        <div class="bg-blue-50 p-4 rounded-lg mb-6 flex items-start">
+          <i class="fas fa-info-circle text-blue-500 mt-1 mr-3"></i>
+          <p class="text-sm text-gray-700">O valor máximo para envio via PIX é de R$ 1.000,00 por transação.
+          </p>
+        </div>
+
+        <div class="flex justify-between">
+          <button class="btn-secondary py-3 px-6 rounded-lg font-medium" id="btnCancelar" type="button">
+            Cancelar
+          </button>
+          <button class="btn-primary py-3 px-6 rounded-lg font-medium flex items-center" type="submit">
+            <i class="fas fa-paper-plane mr-2"></i>
+            Enviar PIX
+          </button>
+        </div>
+      </form>
+
+
+      <form th:if="${aviso}" th:action="@{/pix}" method="post">
+        <div class="mb-6">
+          <label class="block text-gray-700 text-sm font-medium mb-2" for="valor">Valor</label>
+          <div class="relative">
+            <span class="absolute left-3 top-3 text-gray-500">R$</span>
+            <input id="valor" type="text" name="valor"
+              class="input-field w-full pl-8 py-3 px-4 rounded-lg focus:outline-none" placeholder="0,00"
+              th:value="${dadosPix.valor}" autocomplete="off" />
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <label class="block text-gray-700 text-sm font-medium mb-2" for="destinatario">Para quem você quer
+            enviar?</label>
+          <div class="grid grid-cols-4 gap-2 mb-4">
+            <button class="bg-gray-100 py-2 px-3 rounded-lg text-sm flex flex-col items-center" data-method="celular"
+              type="button">
+              <i class="fas fa-mobile-alt mb-1"></i>
+              <span>Celular</span>
+            </button>
+            <button class="bg-gray-100 py-2 px-3 rounded-lg text-sm flex flex-col items-center" data-method="email"
+              type="button">
+              <i class="fas fa-envelope mb-1"></i>
+              <span>E-mail</span>
+            </button>
+            <button class="bg-gray-100 py-2 px-3 rounded-lg text-sm flex flex-col items-center" data-method="cpfcnpj"
+              type="button">
+              <i class="fas fa-id-card mb-1"></i>
+              <span>CPF/CNPJ</span>
+            </button>
+          </div>
+          <input id="destinatario" type="text" name="chavePix"
+            class="input-field w-full py-3 px-4 rounded-lg focus:outline-none" placeholder="Digite a chave PIX"
+            autocomplete="off" maxlength="18" th:value="${dadosPix.chavePix}" />
+        </div>
+
+        <div class="mb-6">
+          <label class="block text-gray-700 text-sm font-medium mb-2" for="descricao">Descrição
+            (opcional)</label>
+          <input id="descricao" type="text" class="input-field w-full py-3 px-4 rounded-lg focus:outline-none"
+            placeholder="Ex: Pagamento de serviços" autocomplete="off" th:value="${dadosPix.descricao}" />
+        </div>
+
+        <div class="flex items-center mb-6">
+          <input id="salvar" type="checkbox" class="mr-2" />
+          <label for="salvar" class="text-sm text-gray-600">Salvar como favorito</label>
+        </div>
+
+        <input type="hidden" name="confirmado" value="true" />
+
+
+        <div class="bg-blue-50 p-4 rounded-lg mb-6 flex items-start">
+          <i class="fas fa-info-circle text-blue-500 mt-1 mr-3"></i>
+          <p class="text-sm text-gray-700">O valor máximo para envio via PIX é de R$ 1.000,00 por transação.
+          </p>
+        </div>
+
+        <div class="flex justify-between">
+          <button class="btn-secondary py-3 px-6 rounded-lg font-medium" id="btnCancelar" type="button">
+            Cancelar
+          </button>
+          <button class="btn-primary py-3 px-6 rounded-lg font-medium flex items-center" type="submit">
+            <i class="fas fa-paper-plane mr-2"></i>
+            Enviar PIX
+          </button>
+        </div>
+      </form>
     </div>
 
-    <footer class="bg-gray-100 py-6 mt-12">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-4 md:mb-0">
-                    <div class="flex items-center">
-                        <i class="fas fa-university text-xl mr-2 text-gray-700"></i>
-                        <span class="font-medium text-gray-800">Onebank</span>
-                    </div>
-                    <p class="text-xs text-gray-500 mt-1">© 2025 Onebank. Todos os direitos reservados.</p>
-                </div>
-                <div class="flex space-x-6">
-                    <a href="#" class="text-sm text-gray-600 hover:text-gray-800">Segurança</a>
-                    <a href="#" class="text-sm text-gray-600 hover:text-gray-800">Termos de uso</a>
-                    <a href="#" class="text-sm text-gray-600 hover:text-gray-800">Privacidade</a>
-                    <a href="#" class="text-sm text-gray-600 hover:text-gray-800">Ajuda</a>
-                </div>
-            </div>
+    <div class="card bg-white p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+        <i class="fas fa-bolt pix-icon mr-2"></i>
+        PIX é instantâneo e gratuito
+      </h3>
+      <div class="grid grid-cols-3 gap-4">
+        <div class="text-center">
+          <div class="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-2">
+            <i class="fas fa-clock text-red-500"></i>
+          </div>
+          <p class="text-sm text-gray-700">Disponível 24/7</p>
         </div>
-    </footer>
-
-    <div id="popupModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-        <div class="bg-white rounded-lg shadow-lg w-96 p-6 relative">
-            <button id="popupClose"
-                class="absolute top-2 right-2 text-gray-600 hover:text-gray-900 font-bold text-xl">&times;</button>
-            <h2 id="popupTitle" class="text-lg font-semibold mb-2"></h2>
-            <p id="popupMessage" class="mb-2"></p>
-            <p id="popupReason" class="text-sm text-gray-600"></p>
+        <div class="text-center">
+          <div class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-2">
+            <i class="fas fa-money-bill-wave text-blue-500"></i>
+          </div>
+          <p class="text-sm text-gray-700">Sem tarifas</p>
         </div>
+        <div class="text-center">
+          <div class="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-2">
+            <i class="fas fa-check text-green-500"></i>
+          </div>
+          <p class="text-sm text-gray-700">Transferência imediata</p>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <footer class="bg-gray-100 py-6 mt-12">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-4 md:mb-0">
+          <div class="flex items-center">
+            <i class="fas fa-university text-xl mr-2 text-gray-700"></i>
+            <span class="font-medium text-gray-800">Onebank</span>
+          </div>
+          <p class="text-xs text-gray-500 mt-1">© 2025 Onebank. Todos os direitos reservados.</p>
+        </div>
+        <div class="flex space-x-6">
+          <a href="#" class="text-sm text-gray-600 hover:text-gray-800">Segurança</a>
+          <a href="#" class="text-sm text-gray-600 hover:text-gray-800">Termos de uso</a>
+          <a href="#" class="text-sm text-gray-600 hover:text-gray-800">Privacidade</a>
+          <a href="#" class="text-sm text-gray-600 hover:text-gray-800">Ajuda</a>
+        </div>
+      </div>
     </div>
+  </footer>
+
+  <div id="popupModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div class="bg-white rounded-lg shadow-lg w-96 p-6 relative">
+      <button id="popupClose"
+        class="absolute top-2 right-2 text-gray-600 hover:text-gray-900 font-bold text-xl">&times;</button>
+      <h2 id="popupTitle" class="text-lg font-semibold mb-2"></h2>
+      <p id="popupMessage" class="mb-2"></p>
+      <p id="popupReason" class="text-sm text-gray-600"></p>
     </div>
-   <script>
-  const valorInput = document.getElementById('valor');
-  const destinatarioInput = document.getElementById('destinatario');
-  const descricaoInput = document.getElementById('descricao');
-  const salvarCheckbox = document.getElementById('salvar');
-  const btnEnviar = document.getElementById('btnEnviar');
-  const btnCancelar = document.getElementById('btnCancelar');
-  const modalErro = document.getElementById('modalErro');
-  const modalErroMsg = modalErro.querySelector('p');
-  const modalSucesso = document.getElementById('modalSucesso');
+  </div>
+  </div>
+  </div>
+  <script>
+    const valorInput = document.getElementById('valor');
+    const destinatarioInput = document.getElementById('destinatario');
+    const descricaoInput = document.getElementById('descricao');
+    const salvarCheckbox = document.getElementById('salvar');
+    const btnEnviar = document.getElementById('btnEnviar');
+    const btnCancelar = document.getElementById('btnCancelar');
+    const modalErro = document.getElementById('modalErro');
+    const modalErroMsg = modalErro.querySelector('p');
+    const modalSucesso = document.getElementById('modalSucesso');
 
-  // Botões método
-  const methodButtons = document.querySelectorAll('.method-btn');
-  let metodoSelecionado = null;
+    // Botões método
+    const methodButtons = document.querySelectorAll('.method-btn');
+    let metodoSelecionado = null;
 
-  // Regexs para validação
-  const regexValor = /^([0-4]?\d{0,2}(\.\d{3})*|5000)(,\d{1,2})?$/; // valor até 5000, com vírgula decimal
-  const regexCelular = /^\(?\d{2}\)? ?9\d{4}-?\d{4}$/;
-  const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Regexs para validação
+    const regexValor = /^([0-4]?\d{0,2}(\.\d{3})*|5000)(,\d{1,2})?$/; // valor até 5000, com vírgula decimal
+    const regexCelular = /^\(?\d{2}\)? ?9\d{4}-?\d{4}$/;
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  // Funções de validação de CPF e CNPJ (completas)
-  function validarCPF(cpf) {
-    cpf = cpf.replace(/[^\d]+/g, '');
-    if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
-    let soma = 0, resto;
-    for (let i = 1; i <= 9; i++) soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
-    resto = (soma * 10) % 11;
-    if (resto === 10 || resto === 11) resto = 0;
-    if (resto !== parseInt(cpf.substring(9, 10))) return false;
-    soma = 0;
-    for (let i = 1; i <= 10; i++) soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
-    resto = (soma * 10) % 11;
-    if (resto === 10 || resto === 11) resto = 0;
-    return resto === parseInt(cpf.substring(10, 11));
-  }
-
-  function validarCNPJ(cnpj) {
-    cnpj = cnpj.replace(/[^\d]+/g, '');
-    if (cnpj.length !== 14) return false;
-    if (/^(\d)\1+$/.test(cnpj)) return false;
-    let tamanho = cnpj.length - 2;
-    let numeros = cnpj.substring(0, tamanho);
-    let digitos = cnpj.substring(tamanho);
-    let soma = 0, pos = tamanho - 7;
-    for (let i = tamanho; i >= 1; i--) {
-      soma += numeros.charAt(tamanho - i) * pos--;
-      if (pos < 2) pos = 9;
+    // Funções de validação de CPF e CNPJ (completas)
+    function validarCPF(cpf) {
+      cpf = cpf.replace(/[^\d]+/g, '');
+      if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
+      let soma = 0, resto;
+      for (let i = 1; i <= 9; i++) soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+      resto = (soma * 10) % 11;
+      if (resto === 10 || resto === 11) resto = 0;
+      if (resto !== parseInt(cpf.substring(9, 10))) return false;
+      soma = 0;
+      for (let i = 1; i <= 10; i++) soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+      resto = (soma * 10) % 11;
+      if (resto === 10 || resto === 11) resto = 0;
+      return resto === parseInt(cpf.substring(10, 11));
     }
-    let resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
-    if (resultado !== parseInt(digitos.charAt(0))) return false;
-    tamanho += 1;
-    numeros = cnpj.substring(0, tamanho);
-    soma = 0;
-    pos = tamanho - 7;
-    for (let i = tamanho; i >= 1; i--) {
-      soma += numeros.charAt(tamanho - i) * pos--;
-      if (pos < 2) pos = 9;
-    }
-    resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
-    return resultado === parseInt(digitos.charAt(1));
-  }
 
-  // Formata valor monetário enquanto o usuário digita
-  function formatarValor(valor) {
-    valor = valor.replace(/\D/g, '');
-    let numero = parseInt(valor, 10);
-    if (isNaN(numero)) return '';
-    numero = (numero / 100).toFixed(2);
-    return numero.toString().replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-  }
-
-  // Aplica máscara conforme método selecionado
-  function aplicarMascara(input, metodo) {
-    let val = input.value;
-
-    if (metodo === 'cpfcnpj') {
-      // Limpar tudo que não número
-      val = val.replace(/\D/g, '');
-
-      if (val.length <= 11) {
-        // CPF - 000.000.000-00
-        val = val.replace(/(\d{3})(\d)/, '$1.$2');
-        val = val.replace(/(\d{3})(\d)/, '$1.$2');
-        val = val.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-      } else {
-        // CNPJ - 00.000.000/0000-00
-        val = val.replace(/^(\d{2})(\d)/, '$1.$2');
-        val = val.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
-        val = val.replace(/\.(\d{3})(\d)/, '.$1/$2');
-        val = val.replace(/(\d{4})(\d)/, '$1-$2');
+    function validarCNPJ(cnpj) {
+      cnpj = cnpj.replace(/[^\d]+/g, '');
+      if (cnpj.length !== 14) return false;
+      if (/^(\d)\1+$/.test(cnpj)) return false;
+      let tamanho = cnpj.length - 2;
+      let numeros = cnpj.substring(0, tamanho);
+      let digitos = cnpj.substring(tamanho);
+      let soma = 0, pos = tamanho - 7;
+      for (let i = tamanho; i >= 1; i--) {
+        soma += numeros.charAt(tamanho - i) * pos--;
+        if (pos < 2) pos = 9;
       }
-      input.value = val;
-    }
-    else if (metodo === 'celular') {
-      val = val.replace(/\D/g, '');
-      if (val.length > 11) val = val.slice(0, 11);
-      val = val.replace(/^(\d{2})(\d)/g, '($1) $2');
-      val = val.replace(/(\d{5})(\d{1,4})$/, '$1-$2');
-      input.value = val;
-    }
-    // Para email não se aplica máscara
-  }
-
-  // Atualiza estado botão enviar
-  function atualizarEstadoBotao() {
-    const valorVal = valorInput.value.trim();
-    const destVal = destinatarioInput.value.trim();
-
-    if (!metodoSelecionado) {
-      btnEnviar.disabled = true;
-      return;
+      let resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
+      if (resultado !== parseInt(digitos.charAt(0))) return false;
+      tamanho += 1;
+      numeros = cnpj.substring(0, tamanho);
+      soma = 0;
+      pos = tamanho - 7;
+      for (let i = tamanho; i >= 1; i--) {
+        soma += numeros.charAt(tamanho - i) * pos--;
+        if (pos < 2) pos = 9;
+      }
+      resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
+      return resultado === parseInt(digitos.charAt(1));
     }
 
-    // Validar valor
-    const valorNumerico = parseFloat(valorVal.replace(/\./g, '').replace(',', '.'));
-    if (isNaN(valorNumerico) || valorNumerico <= 0 || valorNumerico > 5000) {
-      btnEnviar.disabled = true;
-      return;
+    // Formata valor monetário enquanto o usuário digita
+    function formatarValor(valor) {
+      valor = valor.replace(/\D/g, '');
+      let numero = parseInt(valor, 10);
+      if (isNaN(numero)) return '';
+      numero = (numero / 100).toFixed(2);
+      return numero.toString().replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     }
 
-    // Validar destinatário conforme método
-    let valido = false;
-    switch (metodoSelecionado) {
-      case 'celular':
-        valido = regexCelular.test(destVal);
-        break;
-      case 'email':
-        valido = regexEmail.test(destVal);
-        break;
-      case 'cpfcnpj':
-        // Remover máscara e validar CPF ou CNPJ
-        const apenasNums = destVal.replace(/\D/g, '');
-        if (apenasNums.length === 11) valido = validarCPF(destVal);
-        else if (apenasNums.length === 14) valido = validarCNPJ(destVal);
-        else valido = false;
-        break;
+    // Aplica máscara conforme método selecionado
+    function aplicarMascara(input, metodo) {
+      let val = input.value;
+
+      if (metodo === 'cpfcnpj') {
+        // Limpar tudo que não número
+        val = val.replace(/\D/g, '');
+
+        if (val.length <= 11) {
+          // CPF - 000.000.000-00
+          val = val.replace(/(\d{3})(\d)/, '$1.$2');
+          val = val.replace(/(\d{3})(\d)/, '$1.$2');
+          val = val.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+        } else {
+          // CNPJ - 00.000.000/0000-00
+          val = val.replace(/^(\d{2})(\d)/, '$1.$2');
+          val = val.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+          val = val.replace(/\.(\d{3})(\d)/, '.$1/$2');
+          val = val.replace(/(\d{4})(\d)/, '$1-$2');
+        }
+        input.value = val;
+      }
+      else if (metodo === 'celular') {
+        val = val.replace(/\D/g, '');
+        if (val.length > 11) val = val.slice(0, 11);
+        val = val.replace(/^(\d{2})(\d)/g, '($1) $2');
+        val = val.replace(/(\d{5})(\d{1,4})$/, '$1-$2');
+        input.value = val;
+      }
+      // Para email não se aplica máscara
     }
 
-    btnEnviar.disabled = !(valido && !isNaN(valorNumerico) && valorNumerico > 0 && valorNumerico <= 5000);
-  }
+    // Atualiza estado botão enviar
+    function atualizarEstadoBotao() {
+      const valorVal = valorInput.value.trim();
+      const destVal = destinatarioInput.value.trim();
 
-  // Atualiza placeholder e reseta input destinatário ao trocar método
-  function alterarMetodo(metodo) {
-    metodoSelecionado = metodo;
+      if (!metodoSelecionado) {
+        btnEnviar.disabled = true;
+        return;
+      }
 
-    // Limpar seleção visual e aplicar na nova
+      // Validar valor
+      const valorNumerico = parseFloat(valorVal.replace(/\./g, '').replace(',', '.'));
+      if (isNaN(valorNumerico) || valorNumerico <= 0 || valorNumerico > 5000) {
+        btnEnviar.disabled = true;
+        return;
+      }
+
+      // Validar destinatário conforme método
+      let valido = false;
+      switch (metodoSelecionado) {
+        case 'celular':
+          valido = regexCelular.test(destVal);
+          break;
+        case 'email':
+          valido = regexEmail.test(destVal);
+          break;
+        case 'cpfcnpj':
+          // Remover máscara e validar CPF ou CNPJ
+          const apenasNums = destVal.replace(/\D/g, '');
+          if (apenasNums.length === 11) valido = validarCPF(destVal);
+          else if (apenasNums.length === 14) valido = validarCNPJ(destVal);
+          else valido = false;
+          break;
+      }
+
+      btnEnviar.disabled = !(valido && !isNaN(valorNumerico) && valorNumerico > 0 && valorNumerico <= 5000);
+    }
+
+    // Atualiza placeholder e reseta input destinatário ao trocar método
+    function alterarMetodo(metodo) {
+      metodoSelecionado = metodo;
+
+      // Limpar seleção visual e aplicar na nova
+      methodButtons.forEach(btn => {
+        if (btn.dataset.method === metodo) {
+          btn.classList.add('tab-active');
+          btn.classList.remove('bg-gray-100');
+        } else {
+          btn.classList.remove('tab-active');
+          btn.classList.add('bg-gray-100');
+        }
+      });
+
+      destinatarioInput.value = '';
+      destinatarioInput.maxLength = metodo === 'cpfcnpj' ? 18 : metodo === 'celular' ? 15 : 64;
+
+      switch (metodo) {
+        case 'celular':
+          destinatarioInput.placeholder = '(99) 99999-9999';
+          destinatarioInput.type = 'tel';
+          break;
+        case 'email':
+          destinatarioInput.placeholder = 'exemplo@dominio.com';
+          destinatarioInput.type = 'email';
+          break;
+        case 'cpfcnpj':
+          destinatarioInput.placeholder = '000.000.000-00 ou 00.000.000/0000-00';
+          destinatarioInput.type = 'text';
+          break;
+      }
+
+      atualizarEstadoBotao();
+    }
+
+    // Eventos para os botões método
     methodButtons.forEach(btn => {
-      if (btn.dataset.method === metodo) {
-        btn.classList.add('tab-active');
-        btn.classList.remove('bg-gray-100');
-      } else {
+      btn.addEventListener('click', () => alterarMetodo(btn.dataset.method));
+    });
+
+    // Evento para input valor: formata valor monetário
+    valorInput.addEventListener('input', e => {
+      const original = e.target.value;
+      const formatado = formatarValor(original);
+      e.target.value = formatado;
+      atualizarEstadoBotao();
+    });
+
+    // Evento para input destinatário: aplica máscara conforme método
+    destinatarioInput.addEventListener('input', e => {
+      if (metodoSelecionado === 'cpfcnpj' || metodoSelecionado === 'celular') {
+        aplicarMascara(e.target, metodoSelecionado);
+      }
+      atualizarEstadoBotao();
+    });
+
+    // Limpar formulário ao cancelar
+    btnCancelar.addEventListener('click', () => {
+      valorInput.value = '';
+      destinatarioInput.value = '';
+      descricaoInput.value = '';
+      salvarCheckbox.checked = false;
+      metodoSelecionado = null;
+      methodButtons.forEach(btn => {
         btn.classList.remove('tab-active');
         btn.classList.add('bg-gray-100');
+      });
+      atualizarEstadoBotao();
+    });
+
+    // Função para mostrar modal (erro ou sucesso)
+    function mostrarModal(modal, mensagem = '') {
+      if (modal === modalErro) {
+        modalErroMsg.textContent = mensagem;
+      }
+      modal.classList.add('show');
+      modal.setAttribute('aria-hidden', 'false');
+      modal.querySelector('button.close-btn').focus();
+    }
+
+    // Fechar modal (via botão ou clicando fora)
+    function fecharModal(modal) {
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+
+    // Fechar modais com botão close
+    document.querySelectorAll('.modal .close-btn').forEach(btn => {
+      btn.addEventListener('click', e => {
+        const modalPai = e.target.closest('.modal-bg');
+        fecharModal(modalPai);
+      });
+    });
+
+    // Fechar modal clicando fora da modal
+    document.querySelectorAll('.modal-bg').forEach(bg => {
+      bg.addEventListener('click', e => {
+        if (e.target === bg) fecharModal(bg);
+      });
+    });
+
+    // Enviar PIX (simulado)
+    btnEnviar.addEventListener('click', () => {
+      // Simulação simples: se valor > 0 e destinatário válido, sucesso, senão erro
+
+      // Revalidar antes
+      atualizarEstadoBotao();
+
+      if (btnEnviar.disabled) return;
+
+      // Aqui normalmente teria chamada fetch/ajax para backend
+
+      // Simulação: 90% sucesso, 10% erro random
+      if (Math.random() < 0.9) {
+        fecharModal(modalErro);
+        mostrarModal(modalSucesso);
+      } else {
+        mostrarModal(modalErro, 'Erro inesperado ao processar a transação. Tente novamente.');
       }
     });
 
-    destinatarioInput.value = '';
-    destinatarioInput.maxLength = metodo === 'cpfcnpj' ? 18 : metodo === 'celular' ? 15 : 64;
+    // Inicializar método default (vazio)
+    alterarMetodo(null);
 
-    switch (metodo) {
-      case 'celular':
-        destinatarioInput.placeholder = '(99) 99999-9999';
-        destinatarioInput.type = 'tel';
-        break;
-      case 'email':
-        destinatarioInput.placeholder = 'exemplo@dominio.com';
-        destinatarioInput.type = 'email';
-        break;
-      case 'cpfcnpj':
-        destinatarioInput.placeholder = '000.000.000-00 ou 00.000.000/0000-00';
-        destinatarioInput.type = 'text';
-        break;
-    }
-
-    atualizarEstadoBotao();
-  }
-
-  // Eventos para os botões método
-  methodButtons.forEach(btn => {
-    btn.addEventListener('click', () => alterarMetodo(btn.dataset.method));
-  });
-
-  // Evento para input valor: formata valor monetário
-  valorInput.addEventListener('input', e => {
-    const original = e.target.value;
-    const formatado = formatarValor(original);
-    e.target.value = formatado;
-    atualizarEstadoBotao();
-  });
-
-  // Evento para input destinatário: aplica máscara conforme método
-  destinatarioInput.addEventListener('input', e => {
-    if (metodoSelecionado === 'cpfcnpj' || metodoSelecionado === 'celular') {
-      aplicarMascara(e.target, metodoSelecionado);
-    }
-    atualizarEstadoBotao();
-  });
-
-  // Limpar formulário ao cancelar
-  btnCancelar.addEventListener('click', () => {
-    valorInput.value = '';
-    destinatarioInput.value = '';
-    descricaoInput.value = '';
-    salvarCheckbox.checked = false;
-    metodoSelecionado = null;
-    methodButtons.forEach(btn => {
-      btn.classList.remove('tab-active');
-      btn.classList.add('bg-gray-100');
-    });
-    atualizarEstadoBotao();
-  });
-
-  // Função para mostrar modal (erro ou sucesso)
-  function mostrarModal(modal, mensagem = '') {
-    if (modal === modalErro) {
-      modalErroMsg.textContent = mensagem;
-    }
-    modal.classList.add('show');
-    modal.setAttribute('aria-hidden', 'false');
-    modal.querySelector('button.close-btn').focus();
-  }
-
-  // Fechar modal (via botão ou clicando fora)
-  function fecharModal(modal) {
-    modal.classList.remove('show');
-    modal.setAttribute('aria-hidden', 'true');
-  }
-
-  // Fechar modais com botão close
-  document.querySelectorAll('.modal .close-btn').forEach(btn => {
-    btn.addEventListener('click', e => {
-      const modalPai = e.target.closest('.modal-bg');
-      fecharModal(modalPai);
-    });
-  });
-
-  // Fechar modal clicando fora da modal
-  document.querySelectorAll('.modal-bg').forEach(bg => {
-    bg.addEventListener('click', e => {
-      if (e.target === bg) fecharModal(bg);
-    });
-  });
-
-  // Enviar PIX (simulado)
-  btnEnviar.addEventListener('click', () => {
-    // Simulação simples: se valor > 0 e destinatário válido, sucesso, senão erro
-
-    // Revalidar antes
-    atualizarEstadoBotao();
-
-    if (btnEnviar.disabled) return;
-
-    // Aqui normalmente teria chamada fetch/ajax para backend
-
-    // Simulação: 90% sucesso, 10% erro random
-    if (Math.random() < 0.9) {
-      fecharModal(modalErro);
-      mostrarModal(modalSucesso);
-    } else {
-      mostrarModal(modalErro, 'Erro inesperado ao processar a transação. Tente novamente.');
-    }
-  });
-
-  // Inicializar método default (vazio)
-  alterarMetodo(null);
-
-</script>
+  </script>
 </body>
+
 </html>

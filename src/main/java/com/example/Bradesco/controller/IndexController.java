@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.data.domain.PageRequest;
+
 
 import com.example.Bradesco.model.Cartao;
 import com.example.Bradesco.model.Conta;
@@ -31,12 +33,18 @@ public class IndexController {
         this.transacaoRepository = transacaoRepository; // Adicione isso
     }
 
+
     @GetMapping("/HomePg")
-    public String voltarParaHome(HttpSession session, Model model) {
-        Conta conta = (Conta) session.getAttribute("contaLogada");
-        if (conta == null) {
+    public String HomePg(HttpSession session, Model model) {
+
+        Conta contaSessao = (Conta) session.getAttribute("contaLogada");
+        if (contaSessao == null) {
+
             return "redirect:/login";
         }
+        // Busque a conta do banco para garantir que é a mesma instância usada nas transações
+        Conta conta = contaRepository.findById(contaSessao.getIdConta()).orElseThrow();
+
         model.addAttribute("conta", conta);
         model.addAttribute("cliente", conta.getCliente());
         List<Cartao> cartoes = conta.getCartoes();
@@ -46,15 +54,15 @@ public class IndexController {
         model.addAttribute("cartoes", cartoes);
 
         // Busca PIX enviados e recebidos
-        List<Transacao> historicoPix = transacaoRepository.findByContaOrigemOrContaDestino(conta, conta);
+        List<Transacao> historicoPix = transacaoRepository.findByContaOrigemIdContaOrContaDestinoIdContaOrderByDataHoraDesc(conta.getIdConta(), conta.getIdConta(), PageRequest.of(0, 10));
         model.addAttribute("historicoPix", historicoPix);
         System.out.println("Transações encontradas: " + historicoPix.size());
+        System.out.println(conta.getIdConta());
+        for (Transacao t : historicoPix) {
+            System.out.println("ID: " + t.getId() + " | Origem: " + t.getContaOrigem().getIdConta() + " | Destino: " + t.getContaDestino().getIdConta());
+        }
 
         return "HomePg";
     }
 
-    @GetMapping("/Pix")
-    public String Pix() {
-        return "PixPg";
-    }
-}
+}   
